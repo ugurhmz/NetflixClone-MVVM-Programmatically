@@ -16,6 +16,7 @@
 		636E2E9527F337AD004DB925 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636E2E9427F337AD004DB925 /* SearchVC.swift */; };
 		636E2E9727F337B9004DB925 /* DownloadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636E2E9627F337B9004DB925 /* DownloadVC.swift */; };
 		636E2E9E27F349DE004DB925 /* TableCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636E2E9D27F349DE004DB925 /* TableCollectionViewCell.swift */; };
+		636E2EA027F36FBB004DB925 /* TopHeaderUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636E2E9F27F36FBB004DB925 /* TopHeaderUIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		636E2E9427F337AD004DB925 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		636E2E9627F337B9004DB925 /* DownloadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadVC.swift; sourceTree = "<group>"; };
 		636E2E9D27F349DE004DB925 /* TableCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCollectionViewCell.swift; sourceTree = "<group>"; };
+		636E2E9F27F36FBB004DB925 /* TopHeaderUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopHeaderUIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,10 +70,7 @@
 				636E2E9927F34948004DB925 /* Resources */,
 				636E2E9827F34943004DB925 /* Managers */,
 				636E2E8627F336E6004DB925 /* ViewControllers */,
-				636E2E7227F3131A004DB925 /* AppDelegate.swift */,
-				636E2E7427F3131A004DB925 /* SceneDelegate.swift */,
 				636E2E7627F3131A004DB925 /* MainTabBarViewController.swift */,
-				636E2E7B27F3131B004DB925 /* Assets.xcassets */,
 				636E2E8027F3131B004DB925 /* Info.plist */,
 			);
 			path = "Netflix-Clone-MVVM";
@@ -98,6 +97,9 @@
 		636E2E9927F34948004DB925 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				636E2E7227F3131A004DB925 /* AppDelegate.swift */,
+				636E2E7427F3131A004DB925 /* SceneDelegate.swift */,
+				636E2E7B27F3131B004DB925 /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				636E2E9D27F349DE004DB925 /* TableCollectionViewCell.swift */,
+				636E2E9F27F36FBB004DB925 /* TopHeaderUIView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				636E2EA027F36FBB004DB925 /* TopHeaderUIView.swift in Sources */,
 				636E2E9527F337AD004DB925 /* SearchVC.swift in Sources */,
 				636E2E9727F337B9004DB925 /* DownloadVC.swift in Sources */,
 				636E2E7727F3131A004DB925 /* MainTabBarViewController.swift in Sources */,

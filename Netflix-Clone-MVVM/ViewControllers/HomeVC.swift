@@ -13,7 +13,7 @@ class HomeVC: UIViewController {
     // homeTableView
     private let homeTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        
+        tableView.showsVerticalScrollIndicator = false
         // register
         tableView.register(TableCollectionViewCell.self,
                            forCellReuseIdentifier: TableCollectionViewCell.identifier)
@@ -33,7 +33,11 @@ class HomeVC: UIViewController {
         homeTableView.delegate = self
         homeTableView.dataSource = self
         
-       
+        // header view settings
+        let headerView = TopHeaderUIView(frame: CGRect(x: 0, y: 0,
+                                                       width: view.bounds.width,
+                                                       height: 450))
+        homeTableView.tableHeaderView = headerView
     }
     
     override func viewDidLayoutSubviews() {
