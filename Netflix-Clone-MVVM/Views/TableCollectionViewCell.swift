@@ -11,9 +11,9 @@ class TableCollectionViewCell: UITableViewCell {
 
     static var identifier =  "TableCollectionViewCell"
     
-   
     private let generalCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 140, height: 200)
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
@@ -29,7 +29,6 @@ class TableCollectionViewCell: UITableViewCell {
         setupViews()
     }
     
-  
     func setupViews(){
         contentView.backgroundColor = .systemPink
         contentView.addSubview(generalCollectionView)
@@ -42,12 +41,10 @@ class TableCollectionViewCell: UITableViewCell {
         fatalError("not imp")
     }
     
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         generalCollectionView.frame = contentView.bounds
     }
-
 }
 
 
