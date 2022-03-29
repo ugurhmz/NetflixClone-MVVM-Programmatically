@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  UpComingVC.swift
 //  Netflix-Clone-MVVM
 //
 //  Created by ugur-pc on 29.03.2022.
@@ -7,13 +7,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class UpComingVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
 
+        view.backgroundColor = .systemBackground
+    }
+    
+
+  
 
 }
-
