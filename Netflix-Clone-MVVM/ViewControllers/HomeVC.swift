@@ -12,8 +12,11 @@ class HomeVC: UIViewController {
     
     // homeTableView
     private let homeTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "homeTableViewCell")
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        
+        // register
+        tableView.register(TableCollectionViewCell.self,
+                           forCellReuseIdentifier: TableCollectionViewCell.identifier)
         return tableView
     }()
     
@@ -30,6 +33,11 @@ class HomeVC: UIViewController {
         homeTableView.delegate = self
         homeTableView.dataSource = self
         
+       
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         homeTableView.frame = view.bounds
     }
   
@@ -40,11 +48,18 @@ class HomeVC: UIViewController {
 //MARK: - TableView Delegate, DataSource
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
+    // alt alta hücre sayısı
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 5
+    }
     
-    // numberOfRowsInSection
+    
+    
+    
+    // hücre içi
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return 30
+        return 1
     }
     
     
@@ -53,12 +68,10 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "homeTableViewCell", for: indexPath)
+        let tableCell = tableView.dequeueReusableCell(withIdentifier: TableCollectionViewCell.identifier, for: indexPath) as! TableCollectionViewCell
         
-        cell.textLabel?.text =  "Test\(indexPath.row)"
-        cell.backgroundColor =  indexPath.row % 2  == 0 ? .green : .red
-        
-        return cell
+       
+        return tableCell
     }
     
     
