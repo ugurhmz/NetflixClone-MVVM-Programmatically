@@ -38,12 +38,32 @@ class HomeVC: UIViewController {
                                                        width: view.bounds.width,
                                                        height: 450))
         homeTableView.tableHeaderView = headerView
+        homeTableView.frame = view.bounds
+        
+        settingsNavigateBar()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        homeTableView.frame = view.bounds
+    
+    func settingsNavigateBar(){
+        let netflixImage = UIImage(named: "netflixIcon")?.withRenderingMode(.alwaysOriginal)
+        
+        // left icon
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: netflixImage, style: .done,
+                                                           target: self, action: nil)
+        // right two icons
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(image: UIImage(systemName: "person"), style: .done,
+                            target: self, action: nil),
+            UIBarButtonItem(image: UIImage(systemName: "play.rectangle"),
+                            style: .done, target: self, action: nil)
+        ]
+        
+        
+        // icons color
+        navigationController?.navigationBar.tintColor = .white
+        
     }
+   
   
 
 }
