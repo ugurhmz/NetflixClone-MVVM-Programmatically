@@ -8,7 +8,8 @@
 import UIKit
 
 class HomeVC: UIViewController {
-
+    
+    let movieTypes: [String] = ["Trending Movie", "Popular", "Trendind TV", "UpComing Movies", "Top rated"]
     
     // homeTableView
     private let homeTableView: UITableView = {
@@ -74,7 +75,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
     // alt alta hücre sayısı
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return  movieTypes.count
     }
     
     
@@ -103,6 +104,35 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         return 200
     }
     
+    
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let defaultOffset = view.safeAreaInsets.top
+        let offset = scrollView.contentOffset.y + defaultOffset
+        
+        navigationController?.navigationBar.transform = .init(translationX:  0,
+                                                              y: min(0, -offset))
+    }
+    
+    
+    // Header Title
+    func tableView(_ tableView: UITableView,
+                   titleForHeaderInSection section: Int) -> String? {
+        return movieTypes[section]
+    }
+    
+    
+    // Header Title Settings
+    func tableView(_ tableView: UITableView,
+                   willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 10,
+                                         y: header.bounds.origin.y,
+                                         width: 100, height: header.bounds.height)
+        header.textLabel?.textColor = .white
+        header.textLabel?.text = header.textLabel?.text?.capitalized
+    }
     
 }
 
