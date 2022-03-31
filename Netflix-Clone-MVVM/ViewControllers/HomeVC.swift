@@ -7,6 +7,16 @@
 
 import UIKit
 
+enum Sections: Int {
+    case TrendingMovies = 0
+    case Popular = 1
+    case TrendingTv = 2
+    case UpComingMovies = 3
+    case TopRated = 4
+}
+
+
+
 class HomeVC: UIViewController {
     
     let movieTypes: [String] = ["Trending Movie", "Popular", "Trendind TV", "UpComing Movies", "Top rated"]
@@ -26,8 +36,8 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         
-        MovieWebService.shared.getTopRated { _ in
-            
+        MovieWebService.shared.getTopRated { res in
+                    
         }
     }
     
@@ -99,7 +109,23 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         
         let tableCell = tableView.dequeueReusableCell(withIdentifier: TableCollectionViewCell.identifier, for: indexPath) as! TableCollectionViewCell
         
-       
+        // switch sections
+        switch indexPath.section {
+
+            case Sections.TopRated.rawValue:
+                    MovieWebService.shared.getTopRated { result in
+                        switch result {
+                        case .success(let movie):
+                            tableCell.configure(with: movie)
+                        case .failure(let error):
+                            print(error)
+                        }
+               
+                    }
+            default:
+                return UITableViewCell()
+        }
+        
         return tableCell
     }
     

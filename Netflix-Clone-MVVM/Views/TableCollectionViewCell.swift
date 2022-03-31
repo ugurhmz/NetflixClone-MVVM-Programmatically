@@ -9,7 +9,11 @@ import UIKit
 
 class TableCollectionViewCell: UITableViewCell {
 
-    static var identifier =  "TableCollectionViewCell"
+    static  var identifier =  "TableCollectionViewCell"
+    private var movieDataList: [MovieData] = [MovieData]()
+    
+    
+    
     
     private let generalCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -18,7 +22,8 @@ class TableCollectionViewCell: UITableViewCell {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         // register
-        cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cvCell")
+        cv.register(BottomCollectionViewCell.self,
+                    forCellWithReuseIdentifier: BottomCollectionViewCell.identifier)
         
         return cv
     }()
@@ -48,22 +53,47 @@ class TableCollectionViewCell: UITableViewCell {
 }
 
 
+extension TableCollectionViewCell {
+    
+    public func configure(with mvList: [MovieData]) {
+        self.movieDataList = mvList
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.generalCollectionView.reloadData()
+        }
+    }
+    
+}
+
+
+
+
 //MARK: - CollectionView Delegate, DataSource
 extension TableCollectionViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return self.movieDataList.count
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath)
-        cell.backgroundColor = .green
+      
+        guard let bottomCells = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath)
+                as? BottomCollectionViewCell else { return UICollectionViewCell() }
         
-        return cell
+        
+        guard let model = movieDataList[indexPath.row].poster_path else {
+            return UICollectionViewCell()
+        }
+        
+        bottomCells.configure(with: model)
+        
+        return bottomCells
     }
     
     

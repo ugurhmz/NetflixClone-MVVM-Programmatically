@@ -28,7 +28,7 @@ public protocol MovieWebServiceProtocol {
     func    getTrendingTvs(completion: @escaping (Result<MovieResponse>) -> Void)
     func    getUpComingMovies(completion: @escaping (Result<MovieResponse>) -> Void)
     func    getPopular(completion: @escaping (Result<MovieResponse>) -> Void)
-    func    getTopRated(completion: @escaping (Result<MovieResponse>) -> Void)
+    func    getTopRated(completion: @escaping (Result<[MovieData]>) -> Void)
 //    func    getDiscoverMovies()
     //search
     
@@ -38,13 +38,10 @@ public protocol MovieWebServiceProtocol {
 
 
 public class MovieWebService: MovieWebServiceProtocol {
-   
-    
-   
+ 
     
     static let shared = MovieWebService()
-    
-    
+  
     
     //MARK: - trendingMovies
     public func getTrendingMovies(completion: @escaping (Result<MovieResponse>) -> Void) {
@@ -160,7 +157,7 @@ public class MovieWebService: MovieWebServiceProtocol {
     
     
     //MARK: - getTopRated
-    public func getTopRated(completion: @escaping (Result<MovieResponse>) -> Void) {
+    public func getTopRated(completion: @escaping (Result<[MovieData]>) -> Void) {
         let urlString =  MovieEndPoints.baseURL.rawValue +
                          "/3/movie/top_rated?api_key=" +
                         MovieEndPoints.movieAPI.rawValue
@@ -173,8 +170,8 @@ public class MovieWebService: MovieWebServiceProtocol {
                 do {
                     
                     let response = try decoder.decode(MovieResponse.self, from: data)
-                    print(response)
-                    completion(.success(response))
+                  //  print("-->",response.results)
+                    completion(.success(response.results))
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))
                 }
@@ -184,5 +181,6 @@ public class MovieWebService: MovieWebServiceProtocol {
         }
         
     }
+   
     
 }
