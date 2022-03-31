@@ -21,9 +21,11 @@
 		637956ED27F59B6400151C58 /* MovieResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637956EC27F59B6400151C58 /* MovieResponse.swift */; };
 		637956F027F5A51F00151C58 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637956EF27F5A51F00151C58 /* Result.swift */; };
 		637956F227F5A59100151C58 /* Decoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637956F127F5A59100151C58 /* Decoders.swift */; };
+		7FF840DAD3B0F491A5C8E535 /* Pods_Netflix_Clone_MVVM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121FFC9F1C0DBE47E6D418AD /* Pods_Netflix_Clone_MVVM.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		121FFC9F1C0DBE47E6D418AD /* Pods_Netflix_Clone_MVVM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Netflix_Clone_MVVM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		636E2E6F27F3131A004DB925 /* Netflix-Clone-MVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Netflix-Clone-MVVM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		636E2E7227F3131A004DB925 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		636E2E7427F3131A004DB925 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -40,6 +42,8 @@
 		637956EC27F59B6400151C58 /* MovieResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieResponse.swift; sourceTree = "<group>"; };
 		637956EF27F5A51F00151C58 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		637956F127F5A59100151C58 /* Decoders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoders.swift; sourceTree = "<group>"; };
+		873AFC56D58F0B24F2063404 /* Pods-Netflix-Clone-MVVM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Netflix-Clone-MVVM.debug.xcconfig"; path = "Target Support Files/Pods-Netflix-Clone-MVVM/Pods-Netflix-Clone-MVVM.debug.xcconfig"; sourceTree = "<group>"; };
+		D9761DDF5A7A9C887270B1F3 /* Pods-Netflix-Clone-MVVM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Netflix-Clone-MVVM.release.xcconfig"; path = "Target Support Files/Pods-Netflix-Clone-MVVM/Pods-Netflix-Clone-MVVM.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,17 +51,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FF840DAD3B0F491A5C8E535 /* Pods_Netflix_Clone_MVVM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		10EF65473776426FB527ABFF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				121FFC9F1C0DBE47E6D418AD /* Pods_Netflix_Clone_MVVM.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		636E2E6627F3131A004DB925 = {
 			isa = PBXGroup;
 			children = (
 				636E2E7127F3131A004DB925 /* Netflix-Clone-MVVM */,
 				636E2E7027F3131A004DB925 /* Products */,
+				691E2B3D83A24F42A370CC3A /* Pods */,
+				10EF65473776426FB527ABFF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,6 +162,16 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		691E2B3D83A24F42A370CC3A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				873AFC56D58F0B24F2063404 /* Pods-Netflix-Clone-MVVM.debug.xcconfig */,
+				D9761DDF5A7A9C887270B1F3 /* Pods-Netflix-Clone-MVVM.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -154,9 +179,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 636E2E8327F3131B004DB925 /* Build configuration list for PBXNativeTarget "Netflix-Clone-MVVM" */;
 			buildPhases = (
+				5CAB17F2E064D96A3523F721 /* [CP] Check Pods Manifest.lock */,
 				636E2E6B27F3131A004DB925 /* Sources */,
 				636E2E6C27F3131A004DB925 /* Frameworks */,
 				636E2E6D27F3131A004DB925 /* Resources */,
+				7035AFF3CC6B83B4AE86DBB6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -210,6 +237,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5CAB17F2E064D96A3523F721 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Netflix-Clone-MVVM-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7035AFF3CC6B83B4AE86DBB6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Netflix-Clone-MVVM/Pods-Netflix-Clone-MVVM-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Netflix-Clone-MVVM/Pods-Netflix-Clone-MVVM-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Netflix-Clone-MVVM/Pods-Netflix-Clone-MVVM-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		636E2E6B27F3131A004DB925 /* Sources */ = {
@@ -353,6 +422,7 @@
 		};
 		636E2E8427F3131B004DB925 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 873AFC56D58F0B24F2063404 /* Pods-Netflix-Clone-MVVM.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -380,6 +450,7 @@
 		};
 		636E2E8527F3131B004DB925 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9761DDF5A7A9C887270B1F3 /* Pods-Netflix-Clone-MVVM.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

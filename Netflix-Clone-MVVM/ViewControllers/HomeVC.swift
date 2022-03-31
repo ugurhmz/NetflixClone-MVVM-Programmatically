@@ -25,6 +25,10 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        
+        MovieWebService.shared.getTrendingMovies { _ in
+            
+        }
     }
     
     func setupViews() {
