@@ -26,7 +26,7 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         
-        MovieWebService.shared.getTrendingMovies { _ in
+        MovieWebService.shared.getTopRated { _ in
             
         }
     }

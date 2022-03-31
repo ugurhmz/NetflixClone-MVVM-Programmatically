@@ -23,12 +23,12 @@ public enum APIError: Swift.Error {
 
 
 public protocol MovieWebServiceProtocol {
-    
+  
     func    getTrendingMovies(completion: @escaping (Result<MovieResponse>) -> Void )
-//    func    getTrendingTvs()
-//    func    getUpComingMovies()
-//    func    getPopular()
-//    func    getTopRated()
+    func    getTrendingTvs(completion: @escaping (Result<MovieResponse>) -> Void)
+    func    getUpComingMovies(completion: @escaping (Result<MovieResponse>) -> Void)
+    func    getPopular(completion: @escaping (Result<MovieResponse>) -> Void)
+    func    getTopRated(completion: @escaping (Result<MovieResponse>) -> Void)
 //    func    getDiscoverMovies()
     //search
     
@@ -38,10 +38,15 @@ public protocol MovieWebServiceProtocol {
 
 
 public class MovieWebService: MovieWebServiceProtocol {
+   
+    
+   
     
     static let shared = MovieWebService()
     
     
+    
+    //MARK: - trendingMovies
     public func getTrendingMovies(completion: @escaping (Result<MovieResponse>) -> Void) {
    
         let urlString = MovieEndPoints.baseURL.rawValue +
@@ -55,7 +60,7 @@ public class MovieWebService: MovieWebServiceProtocol {
                 
                 do {
                     let response = try decoder.decode(MovieResponse.self, from: data)
-                    print("response", response)
+                   
                     completion(.success(response))
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))
@@ -68,5 +73,116 @@ public class MovieWebService: MovieWebServiceProtocol {
     }
     
     
+    
+    //MARK: - trending TVS
+    public func getTrendingTvs(completion: @escaping (Result<MovieResponse>) -> Void) {
+        
+        let urlString = MovieEndPoints.baseURL.rawValue +
+                        "/3/trending/tv/day?api_key=" +
+                        MovieEndPoints.movieAPI.rawValue
+        
+        AF.request(urlString).responseData { (responseData) in
+            switch responseData.result {
+            case .success(let data):
+                let decoder = Decoders.plainDateDecoder
+                
+                do {
+                    let response = try decoder.decode(MovieResponse.self, from: data)
+                  
+                    completion(.success(response))
+                } catch {
+                    completion(.failure(APIError.serializationError(internal: error)))
+                }
+                
+            case .failure(let error):
+                completion(.failure(APIError.networkError(internal: error)))
+                
+            }
+        }
+    }
+    
+    
+    
+    //MARK: - upComings
+    public func getUpComingMovies(completion: @escaping (Result<MovieResponse>) -> Void) {
+                
+        let urlString = MovieEndPoints.baseURL.rawValue +
+                       "/3/movie/upcoming?api_key=" +
+                       MovieEndPoints.movieAPI.rawValue
+       
+        
+        AF.request(urlString).responseData { (response) in
+            switch response.result {
+            case .success(let data):
+                let decoder = Decoders.plainDateDecoder
+                
+                do {
+                    let response = try decoder.decode(MovieResponse.self, from: data)
+                    completion(.success(response))
+                } catch {
+                    completion(.failure(APIError.serializationError(internal: error)))
+                }
+                
+            case .failure(let error):
+                completion(.failure(APIError.networkError(internal: error)))
+            }
+            
+        }
+    }
+    
+
+    
+    //MARK: -  getPopular
+    public func getPopular(completion: @escaping (Result<MovieResponse>) -> Void) {
+        
+        let urlString = MovieEndPoints.baseURL.rawValue +
+                        "/3/movie/popular?api_key=" +
+                        MovieEndPoints.movieAPI.rawValue
+        
+        AF.request(urlString).responseData { (response) in
+            switch response.result {
+            case .success(let data):
+                let decoder = Decoders.plainDateDecoder
+                do {
+                    let response = try decoder.decode(MovieResponse.self, from: data)
+                  
+                    completion(.success(response))
+                } catch {
+                    completion(.failure(APIError.serializationError(internal: error)))
+                }
+                
+            case .failure(let error):
+                completion(.failure(APIError.networkError(internal: error)))
+            }
+        }
+    }
+    
+    
+    
+    //MARK: - getTopRated
+    public func getTopRated(completion: @escaping (Result<MovieResponse>) -> Void) {
+        let urlString =  MovieEndPoints.baseURL.rawValue +
+                         "/3/movie/top_rated?api_key=" +
+                        MovieEndPoints.movieAPI.rawValue
+        
+        AF.request(urlString).responseData {  (response) in
+            switch response.result {
+            case .success(let data):
+                let decoder = Decoders.plainDateDecoder
+                
+                do {
+                    
+                    let response = try decoder.decode(MovieResponse.self, from: data)
+                    print(response)
+                    completion(.success(response))
+                } catch {
+                    completion(.failure(APIError.serializationError(internal: error)))
+                }
+            case .failure(let error):
+                completion(.failure(APIError.networkError(internal: error)))
+            }
+        }
+        
+    }
     
 }
