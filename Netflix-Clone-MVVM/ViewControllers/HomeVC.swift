@@ -19,7 +19,7 @@ enum Sections: Int {
 
 class HomeVC: UIViewController {
     
-    let movieTypes: [String] = ["Trending Movie", "Popular", "Trendind TV", "UpComing Movies", "Top rated"]
+    let movieTypes: [String] = ["Trending Movie", "Popular", "Trending TV", "UpComing Movies", "Top rated"]
     
     // homeTableView
     private let homeTableView: UITableView = {
@@ -111,7 +111,46 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         
         // switch sections
         switch indexPath.section {
+            
+        case Sections.TrendingMovies.rawValue:
+            MovieWebService.shared.getTrendingMovies { result in
+                switch result {
+                case .success(let movie):
+                    tableCell.configure(with: movie)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            
+        case Sections.Popular.rawValue:
+            MovieWebService.shared.getPopular { result in
+                switch result {
+                case .success(let movie):
+                    tableCell.configure(with: movie)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            
+        case Sections.TrendingTv.rawValue:
+            MovieWebService.shared.getTrendingTvs { result in
+                switch result {
+                case .success(let movie):
+                    tableCell.configure(with: movie)
+                case .failure(let error):
+                    print(error)
+                }
+            }
 
+        case Sections.UpComingMovies.rawValue:
+            MovieWebService.shared.getUpComingMovies { result in
+                switch result {
+                case .success(let movie):
+                    tableCell.configure(with: movie)
+                case .failure(let error):
+                    print(error)
+                }
+            }
             case Sections.TopRated.rawValue:
                     MovieWebService.shared.getTopRated { result in
                         switch result {
@@ -122,6 +161,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
                         }
                
                     }
+           
             default:
                 return UITableViewCell()
         }
@@ -157,8 +197,8 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
                    willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 10,
-                                         y: header.bounds.origin.y,
+        header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 2,
+                                         y: header.bounds.origin.y ,
                                          width: 100, height: header.bounds.height)
         header.textLabel?.textColor = .white
         header.textLabel?.text = header.textLabel?.text?.capitalized

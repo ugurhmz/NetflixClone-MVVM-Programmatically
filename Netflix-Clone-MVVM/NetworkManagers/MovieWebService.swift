@@ -24,10 +24,10 @@ public enum APIError: Swift.Error {
 
 public protocol MovieWebServiceProtocol {
   
-    func    getTrendingMovies(completion: @escaping (Result<MovieResponse>) -> Void )
-    func    getTrendingTvs(completion: @escaping (Result<MovieResponse>) -> Void)
-    func    getUpComingMovies(completion: @escaping (Result<MovieResponse>) -> Void)
-    func    getPopular(completion: @escaping (Result<MovieResponse>) -> Void)
+    func    getTrendingMovies(completion: @escaping (Result<[MovieData]>) -> Void )
+    func    getTrendingTvs(completion: @escaping (Result<[MovieData]>) -> Void)
+    func    getUpComingMovies(completion: @escaping (Result<[MovieData]>) -> Void)
+    func    getPopular(completion: @escaping (Result<[MovieData]>) -> Void)
     func    getTopRated(completion: @escaping (Result<[MovieData]>) -> Void)
 //    func    getDiscoverMovies()
     //search
@@ -44,7 +44,7 @@ public class MovieWebService: MovieWebServiceProtocol {
   
     
     //MARK: - trendingMovies
-    public func getTrendingMovies(completion: @escaping (Result<MovieResponse>) -> Void) {
+    public func getTrendingMovies(completion: @escaping (Result<[MovieData]>) -> Void) {
    
         let urlString = MovieEndPoints.baseURL.rawValue +
                         "/3/trending/movie/day?api_key=" +
@@ -58,7 +58,7 @@ public class MovieWebService: MovieWebServiceProtocol {
                 do {
                     let response = try decoder.decode(MovieResponse.self, from: data)
                    
-                    completion(.success(response))
+                    completion(.success(response.results))
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))
                 }
@@ -72,7 +72,7 @@ public class MovieWebService: MovieWebServiceProtocol {
     
     
     //MARK: - trending TVS
-    public func getTrendingTvs(completion: @escaping (Result<MovieResponse>) -> Void) {
+    public func getTrendingTvs(completion: @escaping (Result<[MovieData]>) -> Void) {
         
         let urlString = MovieEndPoints.baseURL.rawValue +
                         "/3/trending/tv/day?api_key=" +
@@ -86,7 +86,7 @@ public class MovieWebService: MovieWebServiceProtocol {
                 do {
                     let response = try decoder.decode(MovieResponse.self, from: data)
                   
-                    completion(.success(response))
+                    completion(.success(response.results))
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))
                 }
@@ -101,7 +101,7 @@ public class MovieWebService: MovieWebServiceProtocol {
     
     
     //MARK: - upComings
-    public func getUpComingMovies(completion: @escaping (Result<MovieResponse>) -> Void) {
+    public func getUpComingMovies(completion: @escaping (Result<[MovieData]>) -> Void) {
                 
         let urlString = MovieEndPoints.baseURL.rawValue +
                        "/3/movie/upcoming?api_key=" +
@@ -115,7 +115,7 @@ public class MovieWebService: MovieWebServiceProtocol {
                 
                 do {
                     let response = try decoder.decode(MovieResponse.self, from: data)
-                    completion(.success(response))
+                    completion(.success(response.results))
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))
                 }
@@ -130,7 +130,7 @@ public class MovieWebService: MovieWebServiceProtocol {
 
     
     //MARK: -  getPopular
-    public func getPopular(completion: @escaping (Result<MovieResponse>) -> Void) {
+    public func getPopular(completion: @escaping (Result<[MovieData]>) -> Void) {
         
         let urlString = MovieEndPoints.baseURL.rawValue +
                         "/3/movie/popular?api_key=" +
@@ -143,7 +143,7 @@ public class MovieWebService: MovieWebServiceProtocol {
                 do {
                     let response = try decoder.decode(MovieResponse.self, from: data)
                   
-                    completion(.success(response))
+                    completion(.success(response.results))
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))
                 }
