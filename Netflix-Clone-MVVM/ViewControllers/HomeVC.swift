@@ -41,7 +41,7 @@ class HomeVC: UIViewController {
         }
     }
     
-    func setupViews() {
+    private func setupViews() {
         view.backgroundColor = .systemBackground
         view.addSubview(homeTableView)
         

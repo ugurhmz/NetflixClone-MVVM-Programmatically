@@ -34,7 +34,7 @@ class TableCollectionViewCell: UITableViewCell {
         setupViews()
     }
     
-    func setupViews(){
+    private func setupViews(){
         contentView.backgroundColor = .systemPink
         contentView.addSubview(generalCollectionView)
         
