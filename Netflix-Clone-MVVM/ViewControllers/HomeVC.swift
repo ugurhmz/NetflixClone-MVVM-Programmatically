@@ -17,7 +17,15 @@ enum Sections: Int {
 
 
 
+protocol MovieOutPutProtocol {
+    func saveTrendingMovies(movieValues: [MovieData])
+}
+
 class HomeVC: UIViewController {
+    
+    private lazy var homeTrendingList: [MovieData] = []
+    lazy var viewModel = HomeViewModel()
+    
     
     let movieTypes: [String] = ["Trending Movie", "Popular", "Trending TV", "UpComing Movies", "Top rated"]
     
@@ -36,9 +44,8 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         
-        MovieWebService.shared.getTopRated { res in
-                    
-        }
+        viewModel.setDelegate(output: self)
+        viewModel.getTrendingMovies()
     }
     
     private func setupViews() {
@@ -84,6 +91,23 @@ class HomeVC: UIViewController {
 }
 
 
+
+//MARK: - MovieOutPutProtocol
+extension HomeVC: MovieOutPutProtocol {
+    
+    // trendingMovies
+    func saveTrendingMovies(movieValues: [MovieData]) {
+        self.homeTrendingList = movieValues
+        homeTableView.reloadData()
+    }
+    
+    
+}
+
+
+
+
+
 //MARK: - TableView Delegate, DataSource
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
@@ -113,54 +137,18 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
             
         case Sections.TrendingMovies.rawValue:
-            MovieWebService.shared.getTrendingMovies { result in
-                switch result {
-                case .success(let movie):
-                    tableCell.configure(with: movie)
-                case .failure(let error):
-                    print(error)
-                }
-            }
+            tableCell.configure(with: homeTrendingList)
             
-        case Sections.Popular.rawValue:
-            MovieWebService.shared.getPopular { result in
-                switch result {
-                case .success(let movie):
-                    tableCell.configure(with: movie)
-                case .failure(let error):
-                    print(error)
-                }
-            }
-            
-        case Sections.TrendingTv.rawValue:
-            MovieWebService.shared.getTrendingTvs { result in
-                switch result {
-                case .success(let movie):
-                    tableCell.configure(with: movie)
-                case .failure(let error):
-                    print(error)
-                }
-            }
-
-        case Sections.UpComingMovies.rawValue:
-            MovieWebService.shared.getUpComingMovies { result in
-                switch result {
-                case .success(let movie):
-                    tableCell.configure(with: movie)
-                case .failure(let error):
-                    print(error)
-                }
-            }
-            case Sections.TopRated.rawValue:
-                    MovieWebService.shared.getTopRated { result in
-                        switch result {
-                        case .success(let movie):
-                            tableCell.configure(with: movie)
-                        case .failure(let error):
-                            print(error)
-                        }
-               
-                    }
+//        case Sections.Popular.rawValue:
+//            tableCell.configure(with: <#T##[MovieData]#>)
+//
+//        case Sections.TrendingTv.rawValue:
+//            
+//
+//        case Sections.UpComingMovies.rawValue:
+//
+//        case Sections.TopRated.rawValue:
+                 
            
             default:
                 return UITableViewCell()

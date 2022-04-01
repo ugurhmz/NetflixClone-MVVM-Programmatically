@@ -29,10 +29,7 @@ public protocol MovieWebServiceProtocol {
     func    getUpComingMovies(completion: @escaping (Result<[MovieData]>) -> Void)
     func    getPopular(completion: @escaping (Result<[MovieData]>) -> Void)
     func    getTopRated(completion: @escaping (Result<[MovieData]>) -> Void)
-//    func    getDiscoverMovies()
-    //search
-    
-    //getMovie
+
     
 }
 
@@ -46,6 +43,7 @@ public class MovieWebService: MovieWebServiceProtocol {
     //MARK: - trendingMovies
     public func getTrendingMovies(completion: @escaping (Result<[MovieData]>) -> Void) {
    
+        
         let urlString = MovieEndPoints.baseURL.rawValue +
                         "/3/trending/movie/day?api_key=" +
                         MovieEndPoints.movieAPI.rawValue
