@@ -19,11 +19,15 @@ enum Sections: Int {
 
 protocol MovieOutPutProtocol {
     func saveTrendingMovies(movieValues: [MovieData])
+    func saveTrendingTvs(movieValues: [MovieData])
+    func savePopularMovies(movieValues: [MovieData])
 }
 
 class HomeVC: UIViewController {
     
     private lazy var homeTrendingList: [MovieData] = []
+    private lazy var homeTrendingTvList: [MovieData] = []
+    private lazy var homePopularMovieList: [MovieData] = []
     lazy var viewModel = HomeViewModel()
     
     
@@ -43,9 +47,16 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        viewModelDelegate()
+    }
+    
+    private func viewModelDelegate(){
         
+        //viewModel delegate
         viewModel.setDelegate(output: self)
         viewModel.getTrendingMovies()
+        viewModel.getTrendingTvs()
+        viewModel.getPopular()
     }
     
     private func setupViews() {
@@ -101,6 +112,18 @@ extension HomeVC: MovieOutPutProtocol {
         homeTableView.reloadData()
     }
     
+    // popular
+    func savePopularMovies(movieValues: [MovieData]) {
+        self.homePopularMovieList = movieValues
+        homeTableView.reloadData()
+    }
+    
+    
+    // trending TVs
+    func saveTrendingTvs(movieValues: [MovieData]) {
+        self.homeTrendingTvList = movieValues
+        homeTableView.reloadData()
+    }
     
 }
 
@@ -139,11 +162,11 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         case Sections.TrendingMovies.rawValue:
             tableCell.configure(with: homeTrendingList)
             
-//        case Sections.Popular.rawValue:
-//            tableCell.configure(with: <#T##[MovieData]#>)
-//
-//        case Sections.TrendingTv.rawValue:
-//            
+        case Sections.Popular.rawValue:
+            tableCell.configure(with: homePopularMovieList)
+
+        case Sections.TrendingTv.rawValue:
+            tableCell.configure(with: homeTrendingTvList)
 //
 //        case Sections.UpComingMovies.rawValue:
 //

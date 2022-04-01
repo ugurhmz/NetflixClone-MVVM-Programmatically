@@ -83,7 +83,7 @@ public class MovieWebService: MovieWebServiceProtocol {
                 
                 do {
                     let response = try decoder.decode(MovieResponse.self, from: data)
-                  
+                    print("result",response.results)
                     completion(.success(response.results))
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))
@@ -92,6 +92,31 @@ public class MovieWebService: MovieWebServiceProtocol {
             case .failure(let error):
                 completion(.failure(APIError.networkError(internal: error)))
                 
+            }
+        }
+    }
+    
+    //MARK: -  getPopular
+    public func getPopular(completion: @escaping (Result<[MovieData]>) -> Void) {
+        
+        let urlString = MovieEndPoints.baseURL.rawValue +
+                        "/3/movie/popular?api_key=" +
+                        MovieEndPoints.movieAPI.rawValue
+        
+        AF.request(urlString).responseData { (response) in
+            switch response.result {
+            case .success(let data):
+                let decoder = Decoders.plainDateDecoder
+                do {
+                    let response = try decoder.decode(MovieResponse.self, from: data)
+                  
+                    completion(.success(response.results))
+                } catch {
+                    completion(.failure(APIError.serializationError(internal: error)))
+                }
+                
+            case .failure(let error):
+                completion(.failure(APIError.networkError(internal: error)))
             }
         }
     }
@@ -124,34 +149,6 @@ public class MovieWebService: MovieWebServiceProtocol {
             
         }
     }
-    
-
-    
-    //MARK: -  getPopular
-    public func getPopular(completion: @escaping (Result<[MovieData]>) -> Void) {
-        
-        let urlString = MovieEndPoints.baseURL.rawValue +
-                        "/3/movie/popular?api_key=" +
-                        MovieEndPoints.movieAPI.rawValue
-        
-        AF.request(urlString).responseData { (response) in
-            switch response.result {
-            case .success(let data):
-                let decoder = Decoders.plainDateDecoder
-                do {
-                    let response = try decoder.decode(MovieResponse.self, from: data)
-                  
-                    completion(.success(response.results))
-                } catch {
-                    completion(.failure(APIError.serializationError(internal: error)))
-                }
-                
-            case .failure(let error):
-                completion(.failure(APIError.networkError(internal: error)))
-            }
-        }
-    }
-    
     
     
     //MARK: - getTopRated

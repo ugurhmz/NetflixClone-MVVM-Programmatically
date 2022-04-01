@@ -43,7 +43,7 @@ final class HomeViewModel: HomeViewModelProcotol {
     
     func getTrendingMovies() {
         movieWebService.getTrendingMovies { [weak self] (result) in
-            guard let self = self else { return }
+            guard let self = self else {return }
             
             switch result {
             case .success(let response):
@@ -55,14 +55,34 @@ final class HomeViewModel: HomeViewModelProcotol {
     }
     
     func getTrendingTvs() {
-        print("")
+        movieWebService.getTrendingTvs { [weak self] (result) in
+            guard let self = self else {return }
+            
+            switch result {
+            case .success(let response):
+                self.movieOutPut?.saveTrendingTvs(movieValues: response)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    
+    
+    func getPopular() {
+        movieWebService.getPopular { [weak self] (result) in
+            guard let self = self else {return }
+            
+            switch result {
+            case .success(let response):
+                self.movieOutPut?.savePopularMovies(movieValues: response)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     func getUpComingMovies() {
-        print("")
-    }
-    
-    func getPopular() {
         print("")
     }
     
