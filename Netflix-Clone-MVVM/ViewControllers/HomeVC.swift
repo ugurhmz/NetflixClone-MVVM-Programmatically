@@ -21,6 +21,8 @@ protocol MovieOutPutProtocol {
     func saveTrendingMovies(movieValues: [MovieData])
     func saveTrendingTvs(movieValues: [MovieData])
     func savePopularMovies(movieValues: [MovieData])
+    func saveUpComingMovies(movieValues: [MovieData])
+    func saveTopRatedMovies(movieValues: [MovieData])
 }
 
 class HomeVC: UIViewController {
@@ -28,6 +30,9 @@ class HomeVC: UIViewController {
     private lazy var homeTrendingList: [MovieData] = []
     private lazy var homeTrendingTvList: [MovieData] = []
     private lazy var homePopularMovieList: [MovieData] = []
+    private lazy var homeUpComingMovieList: [MovieData] = []
+    private lazy var homeTopRatedMovieList: [MovieData] = []
+    
     lazy var viewModel = HomeViewModel()
     
     
@@ -57,6 +62,8 @@ class HomeVC: UIViewController {
         viewModel.getTrendingMovies()
         viewModel.getTrendingTvs()
         viewModel.getPopular()
+        viewModel.getUpComingMovies()
+        viewModel.getTopRated()
     }
     
     private func setupViews() {
@@ -105,6 +112,7 @@ class HomeVC: UIViewController {
 
 //MARK: - MovieOutPutProtocol
 extension HomeVC: MovieOutPutProtocol {
+   
     
     // trendingMovies
     func saveTrendingMovies(movieValues: [MovieData]) {
@@ -124,6 +132,21 @@ extension HomeVC: MovieOutPutProtocol {
         self.homeTrendingTvList = movieValues
         homeTableView.reloadData()
     }
+    
+    
+    // upComingMovies
+    func saveUpComingMovies(movieValues: [MovieData]) {
+        self.homeUpComingMovieList = movieValues
+        homeTableView.reloadData()
+    }
+    
+    
+    // topRatedMovies
+    func saveTopRatedMovies(movieValues: [MovieData]) {
+        self.homeTopRatedMovieList = movieValues
+        homeTableView.reloadData()
+    }
+    
     
 }
 
@@ -167,10 +190,12 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 
         case Sections.TrendingTv.rawValue:
             tableCell.configure(with: homeTrendingTvList)
-//
-//        case Sections.UpComingMovies.rawValue:
-//
-//        case Sections.TopRated.rawValue:
+
+        case Sections.UpComingMovies.rawValue:
+            tableCell.configure(with: homeUpComingMovieList)
+
+        case Sections.TopRated.rawValue:
+            tableCell.configure(with: homeTopRatedMovieList)
                  
            
             default:

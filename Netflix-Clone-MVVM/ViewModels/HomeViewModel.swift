@@ -83,11 +83,29 @@ final class HomeViewModel: HomeViewModelProcotol {
     }
     
     func getUpComingMovies() {
-        print("")
+        movieWebService.getUpComingMovies { [weak self] (result) in
+            guard let self = self else { return}
+            
+            switch result {
+            case .success(let response):
+                self.movieOutPut?.saveUpComingMovies(movieValues: response)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     func getTopRated() {
-        print("")
+        movieWebService.getTopRated { [weak self] (result) in
+            guard let self = self else { return}
+            
+            switch result {
+            case .success(let response):
+                self.movieOutPut?.saveTopRatedMovies(movieValues: response)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
 }
