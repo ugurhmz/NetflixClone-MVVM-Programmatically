@@ -7,13 +7,23 @@
 
 import UIKit
 
+
+
 class UpComingVC: UIViewController {
     
-    private var movieUpComingList: [MovieData] = [MovieData]()
+    private var movieUpComingList: [MovieData] = []
+    private lazy var homeTrendingList: [MovieData] = []
+    private lazy var homeTrendingTvList: [MovieData] = []
+    private lazy var homePopularMovieList: [MovieData] = []
+    private lazy var upComingVCUpComingMovieList: [MovieData] = []
+    private lazy var homeTopRatedMovieList: [MovieData] = []
+    
+    lazy var viewModel = HomeViewModel()
     
     private let upComingTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        tableView.register(UpComingTableViewCell.self,
+                           forCellReuseIdentifier: UpComingTableViewCell.identifier)
         return tableView
     }()
     
@@ -35,44 +45,82 @@ class UpComingVC: UIViewController {
         upComingTableView.dataSource = self
         
         upComingTableView.frame = view.bounds
-        
-        fetchDatas()
+        viewModelDelegate()
     }
     
-    private func fetchDatas(){
-        MovieWebService.shared.getUpComingMovies { result in
-            switch result {
-            case .success(let movie):
-                self.movieUpComingList = movie
-                print(movie)
-                DispatchQueue.main.async {
-                    self.upComingTableView.reloadData()
-                }
-                
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+    private func viewModelDelegate(){
+        viewModel.setDelegate(output: self)
+        viewModel.getUpComingMovies()
     }
     
 
 }
 
+
+//MARK: - Protocol
+extension UpComingVC: MovieOutPutProtocol {
+    
+    
+    // trendingMovies
+    func saveTrendingMovies(movieValues: [MovieData]) {
+        self.homeTrendingList = movieValues
+        upComingTableView.reloadData()
+    }
+    
+    // popular
+    func savePopularMovies(movieValues: [MovieData]) {
+        self.homePopularMovieList = movieValues
+        upComingTableView.reloadData()
+    }
+    
+    
+    // trending TVs
+    func saveTrendingTvs(movieValues: [MovieData]) {
+        self.homeTrendingTvList = movieValues
+        upComingTableView.reloadData()
+    }
+    
+    
+    // upComingMovies
+    func saveUpComingMovies(movieValues: [MovieData]) {
+        self.upComingVCUpComingMovieList = movieValues
+        upComingTableView.reloadData()
+    }
+    
+    
+    // topRatedMovies
+    func saveTopRatedMovies(movieValues: [MovieData]) {
+        self.homeTopRatedMovieList = movieValues
+        upComingTableView.reloadData()
+    }
+     
+    
+}
+
+
+//MARK: - Delegate, DataSource
 extension UpComingVC: UITableViewDelegate, UITableViewDataSource {
     
     
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return movieUpComingList.count
+        return upComingVCUpComingMovieList.count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        
-        cell.textLabel?.text = movieUpComingList[indexPath.row].title
+       guard let cell = tableView.dequeueReusableCell(withIdentifier: UpComingTableViewCell.identifier, for: indexPath) as? UpComingTableViewCell else {
+            return UITableViewCell()
+        }
+       
+       
+        cell.configure(movie: upComingVCUpComingMovieList[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 145
     }
     
     
