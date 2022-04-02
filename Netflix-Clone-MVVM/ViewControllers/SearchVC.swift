@@ -21,8 +21,8 @@ class SearchVC: UIViewController {
     
     private let searchTableView: UITableView = {
         let table = UITableView()
-        table.register(TableCollectionViewCell.self,
-                       forCellReuseIdentifier: TableCollectionViewCell.identifier)
+        table.register(UpComingTableViewCell.self,
+                       forCellReuseIdentifier: UpComingTableViewCell.identifier)
         return table
     }()
     
@@ -50,8 +50,9 @@ class SearchVC: UIViewController {
         navigationController?.navigationBar.tintColor = .white
         navigationItem.searchController = searchController
         
+        searchTableView.delegate = self
+        searchTableView.dataSource = self
         searchTableView.frame = view.bounds
-        
     }
     
     private func viewModelDelegate(){
@@ -61,13 +62,42 @@ class SearchVC: UIViewController {
 
 }
 
+
+//MARK: -
 extension SearchVC: SearchMovieOutPutProtocol {
-    
     
     func saveSearchMovies(movieValues: [MovieData]) {
         self.searchMovieList = movieValues
         print("searchresult", movieValues)
         searchTableView.reloadData()
     }
+}
+
+
+//MARK: - Delegate, DataSource
+extension SearchVC: UITableViewDelegate, UITableViewDataSource {
+    
+    
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
+        return searchMovieList.count
+    }
+    
+    
+    
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let searchCell = tableView.dequeueReusableCell(withIdentifier: UpComingTableViewCell.identifier, for: indexPath) as! UpComingTableViewCell
+    
+        searchCell.configure(movie: searchMovieList[indexPath.row])
+        
+        return searchCell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 140
+    }
+    
     
 }
