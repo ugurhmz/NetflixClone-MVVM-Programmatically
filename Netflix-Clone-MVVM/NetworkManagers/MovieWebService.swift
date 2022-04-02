@@ -29,7 +29,7 @@ public protocol MovieWebServiceProtocol {
     func    getUpComingMovies(completion: @escaping (Result<[MovieData]>) -> Void)
     func    getPopular(completion: @escaping (Result<[MovieData]>) -> Void)
     func    getTopRated(completion: @escaping (Result<[MovieData]>) -> Void)
-
+    func    getDiscoverMovies(completion: @escaping (Result<[MovieData]>) -> Void)
     
 }
 
@@ -176,6 +176,34 @@ public class MovieWebService: MovieWebServiceProtocol {
         }
         
     }
-   
+    
+    
+    //MARK: - discoverMovies
+    public func getDiscoverMovies(completion: @escaping (Result<[MovieData]>) -> Void){
+        let urlString = MovieEndPoints.baseURL.rawValue +
+                        "/3/discover/movie?api_key=" +
+                        MovieEndPoints.movieAPI.rawValue + "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate"
+        
+        AF.request(urlString).responseData { (response) in
+            switch response.result {
+            case .success(let data):
+                let decoder = Decoders.plainDateDecoder
+                
+                do {
+                    let response = try decoder.decode(MovieResponse.self, from: data)
+                    completion(.success(response.results))
+                } catch {
+                    completion(.failure(APIError.serializationError(internal: error)))
+                }
+              
+            case .failure(let error):
+                completion(.failure(APIError.networkError(internal: error)))
+            }
+        }
+        
+        
+        
+    }
+
     
 }

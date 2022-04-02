@@ -88,9 +88,9 @@ extension UpComingTableViewCell {
         NSLayoutConstraint.activate([
             
             //cellImageViewConstraints
-            cellImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            cellImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             cellImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            cellImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+            cellImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             cellImageView.widthAnchor.constraint(equalToConstant: 120),
             
             

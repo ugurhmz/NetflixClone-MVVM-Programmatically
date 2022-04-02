@@ -15,20 +15,21 @@ protocol HomeViewModelProcotol {
     func    getPopular()
     func    getTopRated()
     
-    
     var movieDataList: [MovieData] { get set }
     var movieWebService: MovieWebService { get }
     var movieOutPut: MovieOutPutProtocol? { get }
+    var searchOutPut: SearchMovieOutPutProtocol? { get }
     
     func setDelegate(output: MovieOutPutProtocol)
+    func setSearchDelegate(output: SearchMovieOutPutProtocol)
 }
 
 final class HomeViewModel: HomeViewModelProcotol {
-    
-    
+   
     var movieDataList: [MovieData] = []
     var movieWebService: MovieWebService
     var movieOutPut: MovieOutPutProtocol?
+    var searchOutPut: SearchMovieOutPutProtocol?
     
     
     init() {
@@ -37,6 +38,10 @@ final class HomeViewModel: HomeViewModelProcotol {
     
     func setDelegate(output: MovieOutPutProtocol) {
         movieOutPut = output
+    }
+    
+    func setSearchDelegate(output: SearchMovieOutPutProtocol) {
+        searchOutPut = output
     }
     
     
@@ -102,6 +107,24 @@ final class HomeViewModel: HomeViewModelProcotol {
             switch result {
             case .success(let response):
                 self.movieOutPut?.saveTopRatedMovies(movieValues: response)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    func getDiscoverMovies(){
+        movieWebService.getDiscoverMovies { [weak self] (result) in
+            guard let self = self else {return }
+            
+            switch result {
+            case .success(let response):
+                self.searchOutPut?.saveSearchMovies(movieValues: response)
             case .failure(let error):
                 print(error)
             }
