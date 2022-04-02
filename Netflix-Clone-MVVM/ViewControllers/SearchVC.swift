@@ -15,7 +15,7 @@ protocol SearchMovieOutPutProtocol{
 class SearchVC: UIViewController {
 
     private var searchMovieList: [MovieData] = [MovieData]()
-    lazy var viewModel = HomeViewModel()
+    lazy var viewModel = SearchViewModel()
     
     
     
@@ -53,6 +53,8 @@ class SearchVC: UIViewController {
         searchTableView.delegate = self
         searchTableView.dataSource = self
         searchTableView.frame = view.bounds
+        
+        searchController.searchResultsUpdater = self
     }
     
     private func viewModelDelegate(){
@@ -100,4 +102,16 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     
+}
+
+
+//MARK: - SearchResult
+extension SearchVC: UISearchResultsUpdating {
+
+
+    func updateSearchResults(for searchController: UISearchController) {
+
+    }
+
+
 }
