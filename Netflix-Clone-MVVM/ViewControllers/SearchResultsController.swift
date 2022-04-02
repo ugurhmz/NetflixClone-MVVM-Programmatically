@@ -9,17 +9,17 @@ import UIKit
 
 class SearchResultsController: UIViewController {
 
-    private var searchList: [MovieData] = []
+    public var resultList: [MovieData] = []
     
-    
-    private let searchResultCollectionView: UICollectionView = {
+    public var searchResultCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 3 - 15,
                                  height: 200)
         layout.minimumInteritemSpacing = 0
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(BottomCollectionViewCell.self,
-                                forCellWithReuseIdentifier: BottomCollectionViewCell.identifier)
+        var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        // register
+        collectionView.register(BottomCollectionViewCell.self, forCellWithReuseIdentifier: BottomCollectionViewCell.identifier)
         return collectionView
     }()
     
@@ -47,15 +47,23 @@ extension SearchResultsController: UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return resultList.count
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = searchResultCollectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath)  as! BottomCollectionViewCell
         
-        cell.backgroundColor = .blue
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as? BottomCollectionViewCell else {
+                    return UICollectionViewCell()
+                }
+        
+        let mymodel = resultList[indexPath.row]
+        
+        cell.configure(with: mymodel.poster_path ?? "")
+      
         
         return cell
     }

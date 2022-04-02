@@ -40,7 +40,22 @@ final class SearchViewModel: SearchViewModelProtocol  {
             case .success(let response):
                 self.searchOutPut?.saveSearchMovies(movieValues: response)
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    // getSearch
+    func getSearch(with query: String){
+        movieWebService.getSearch(with: query) { [weak self] (result) in
+            guard let self = self else {return }
+            
+            switch result {
+            case .success(let response):
+                print(response)
+                self.searchOutPut?.saveSearchingResultList(movieValues: response)
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }

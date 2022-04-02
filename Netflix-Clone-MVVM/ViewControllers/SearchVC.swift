@@ -9,14 +9,17 @@ import UIKit
 
 protocol SearchMovieOutPutProtocol{
     func saveSearchMovies(movieValues: [MovieData])
+    func saveSearchingResultList(movieValues: [MovieData])
 }
 
 
 class SearchVC: UIViewController {
 
     private var searchMovieList: [MovieData] = [MovieData]()
+    private var resultSearchList: [MovieData] = []
+    var reload: SearchResultsController?
     lazy var viewModel = SearchViewModel()
-    
+    var myQuery: String?
     
     
     private let searchTableView: UITableView = {
@@ -27,9 +30,11 @@ class SearchVC: UIViewController {
     }()
     
     
+    // SearchBar'da yazınca çıkması istenilen ViewControllerı burda veriyoruz.
     private let searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: SearchResultsController())
         controller.searchBar.placeholder = "Searching.."
+        controller.searchBar.searchBarStyle = .minimal
         return controller
     }()
     
@@ -39,6 +44,7 @@ class SearchVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         viewModelDelegate()
+        searchController.searchResultsUpdater = self
     }
     
     private func setupViews() {
@@ -54,12 +60,14 @@ class SearchVC: UIViewController {
         searchTableView.dataSource = self
         searchTableView.frame = view.bounds
         
-        searchController.searchResultsUpdater = self
+        
     }
     
     private func viewModelDelegate(){
         viewModel.setSearchDelegate(output: self)
         viewModel.getDiscoverMovies()
+        viewModel.getSearch(with: self.myQuery ?? "")
+        
     }
 
 }
@@ -70,8 +78,13 @@ extension SearchVC: SearchMovieOutPutProtocol {
     
     func saveSearchMovies(movieValues: [MovieData]) {
         self.searchMovieList = movieValues
-        print("searchresult", movieValues)
         searchTableView.reloadData()
+    }
+    
+    func saveSearchingResultList(movieValues: [MovieData]) {
+        self.resultSearchList = movieValues
+        print(movieValues)
+        reload?.searchResultCollectionView.reloadData()
     }
 }
 
@@ -111,7 +124,28 @@ extension SearchVC: UISearchResultsUpdating {
 
     func updateSearchResults(for searchController: UISearchController) {
 
+        let searchBar = searchController.searchBar
+        
+        guard let query = searchBar.text,
+              !query.trimmingCharacters(in: .whitespaces).isEmpty,
+               query.trimmingCharacters(in: .whitespaces).count >= 3,
+              
+                let resultsController = searchController.searchResultsController as? SearchResultsController else { return}
+        
+        
+        MovieWebService.shared.getSearch(with: query) { result in
+            
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let movie):
+                    resultsController.resultList = movie
+                    resultsController.searchResultCollectionView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
     }
-
 
 }

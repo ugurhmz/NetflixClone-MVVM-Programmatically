@@ -10,7 +10,7 @@ import Kingfisher
 
 class BottomCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "BottomCollectionViewCell"
+    static var identifier = "BottomCollectionViewCell"
     
     private let cellImageView: UIImageView = {
         let iv = UIImageView()

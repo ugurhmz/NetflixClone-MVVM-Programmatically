@@ -30,11 +30,12 @@ public protocol MovieWebServiceProtocol {
     func    getPopular(completion: @escaping (Result<[MovieData]>) -> Void)
     func    getTopRated(completion: @escaping (Result<[MovieData]>) -> Void)
     func    getDiscoverMovies(completion: @escaping (Result<[MovieData]>) -> Void)
-    
+    func    getSearch(with query: String, completion: @escaping (Result<[MovieData]>) -> Void)
 }
 
 
 public class MovieWebService: MovieWebServiceProtocol {
+  
  
     
     static let shared = MovieWebService()
@@ -83,7 +84,7 @@ public class MovieWebService: MovieWebServiceProtocol {
                 
                 do {
                     let response = try decoder.decode(MovieResponse.self, from: data)
-                    print("result",response.results)
+                    
                     completion(.success(response.results))
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))
@@ -165,7 +166,7 @@ public class MovieWebService: MovieWebServiceProtocol {
                 do {
                     
                     let response = try decoder.decode(MovieResponse.self, from: data)
-                  //  print("-->",response.results)
+                 
                     completion(.success(response.results))
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))
@@ -204,6 +205,38 @@ public class MovieWebService: MovieWebServiceProtocol {
         
         
     }
+    
+    
+    //MARK: - getSearch
+    public func getSearch(with query: String,
+                          completion: @escaping (Result<[MovieData]>) -> Void) {
+       
+       guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return}
+       let urlString =  MovieEndPoints.baseURL.rawValue +
+                        "/3/search/movie?api_key=" +
+                        MovieEndPoints.movieAPI.rawValue +
+                        "&query=\(query)"
+        
+        
+        AF.request(urlString).responseData { (response) in
+            print("myquery", query)
+            switch response.result {
+            case .success(let data):
+                let decoder = Decoders.plainDateDecoder
+                
+                do {
+                    let response = try decoder.decode(MovieResponse.self, from: data)
+                    print(response.results)
+                    completion(.success(response.results))
+                } catch {
+                    completion(.failure(APIError.serializationError(internal: error)))
+                }
+            case .failure(let error):
+                completion(.failure(APIError.networkError(internal: error)))
+            }
+        }
+    }
+    
 
     
 }
