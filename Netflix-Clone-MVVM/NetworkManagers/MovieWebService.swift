@@ -219,14 +219,13 @@ public class MovieWebService: MovieWebServiceProtocol {
         
         
         AF.request(urlString).responseData { (response) in
-            print("myquery", query)
+            
             switch response.result {
             case .success(let data):
                 let decoder = Decoders.plainDateDecoder
                 
                 do {
                     let response = try decoder.decode(MovieResponse.self, from: data)
-                    print(response.results)
                     completion(.success(response.results))
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))

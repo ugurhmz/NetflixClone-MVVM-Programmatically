@@ -39,8 +39,7 @@ final class HomeViewModel: HomeViewModelProcotol {
     func setDelegate(output: MovieOutPutProtocol) {
         movieOutPut = output
     }
-    
-    
+   
     
     
     

@@ -17,9 +17,8 @@ class SearchVC: UIViewController {
 
     private var searchMovieList: [MovieData] = [MovieData]()
     private var resultSearchList: [MovieData] = []
-    var reload: SearchResultsController?
     lazy var viewModel = SearchViewModel()
-    var myQuery: String?
+    
     
     
     private let searchTableView: UITableView = {
@@ -66,7 +65,6 @@ class SearchVC: UIViewController {
     private func viewModelDelegate(){
         viewModel.setSearchDelegate(output: self)
         viewModel.getDiscoverMovies()
-        viewModel.getSearch(with: self.myQuery ?? "")
         
     }
 
@@ -83,8 +81,8 @@ extension SearchVC: SearchMovieOutPutProtocol {
     
     func saveSearchingResultList(movieValues: [MovieData]) {
         self.resultSearchList = movieValues
-        print(movieValues)
-        reload?.searchResultCollectionView.reloadData()
+        print("resultSearchList",resultSearchList)
+        
     }
 }
 
@@ -132,20 +130,23 @@ extension SearchVC: UISearchResultsUpdating {
               
                 let resultsController = searchController.searchResultsController as? SearchResultsController else { return}
         
+        viewModel.getSearch(with: query)
+        resultsController.resultList = resultSearchList
+        resultsController.searchResultCollectionView.reloadData()
         
-        MovieWebService.shared.getSearch(with: query) { result in
-            
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let movie):
-                    resultsController.resultList = movie
-                    resultsController.searchResultCollectionView.reloadData()
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-        }
-        
+//        MovieWebService.shared.getSearch(with: query) { result in
+//
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let movie):
+//                    resultsController.resultList = movie
+//                    resultsController.searchResultCollectionView.reloadData()
+//                case .failure(let error):
+//                    print(error.localizedDescription)
+//                }
+//            }
+//        }
+
     }
 
 }

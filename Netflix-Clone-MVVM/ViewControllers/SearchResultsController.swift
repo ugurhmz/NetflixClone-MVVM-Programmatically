@@ -7,9 +7,13 @@
 
 import UIKit
 
+
+
+
 class SearchResultsController: UIViewController {
 
-    public var resultList: [MovieData] = []
+    public var resultList: [MovieData] = [] 
+   
     
     public var searchResultCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -27,6 +31,7 @@ class SearchResultsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+       
     }
     
     private func setupViews() {
@@ -39,6 +44,8 @@ class SearchResultsController: UIViewController {
     }
 
 }
+
+
 
 
 //MARK: - Delegate, DataSource

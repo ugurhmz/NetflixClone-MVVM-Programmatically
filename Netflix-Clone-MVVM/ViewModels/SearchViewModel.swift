@@ -18,8 +18,11 @@ protocol SearchViewModelProtocol {
 final class SearchViewModel: SearchViewModelProtocol  {
     var searchOutPut: SearchMovieOutPutProtocol?
     var movieWebService : MovieWebService
+    var resultCont: SearchResultsController?
+   
     
     
+    //MARK: -
     init(){
         movieWebService = MovieWebService()
     }
@@ -29,7 +32,7 @@ final class SearchViewModel: SearchViewModelProtocol  {
     func setSearchDelegate(output: SearchMovieOutPutProtocol) {
         searchOutPut = output
     }
-    
+   
     
     // getDiscover
     func getDiscoverMovies(){
@@ -52,7 +55,7 @@ final class SearchViewModel: SearchViewModelProtocol  {
             
             switch result {
             case .success(let response):
-                print(response)
+               //print("myResponse",response)
                 self.searchOutPut?.saveSearchingResultList(movieValues: response)
             case .failure(let error):
                 print(error.localizedDescription)
