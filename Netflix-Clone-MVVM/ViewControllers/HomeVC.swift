@@ -53,6 +53,11 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         viewModelDelegate()
+        
+        
+        MovieWebService.shared.getYoutubeMovies(with: "harry") { result in
+            
+        }
     }
     
     private func viewModelDelegate(){

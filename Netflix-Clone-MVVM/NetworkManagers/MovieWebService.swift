@@ -12,6 +12,8 @@ enum MovieEndPoints: String {
     case baseURL = "https://api.themoviedb.org"
     case languageAndPage = "&language=en-US&page=1#"
     case movieAPI = "6fe8370265c396656c58d7dd9ff3e712"
+    case YoutubeBase_URL = "https://youtube.googleapis.com/youtube/v3/search?"
+    case YoutubeAPI_Key = "AIzaSyAIYl237nqtByZIJeEb7ylJNR_YWUWf9hw"
 }
 
 
@@ -234,8 +236,43 @@ public class MovieWebService: MovieWebServiceProtocol {
                 completion(.failure(APIError.networkError(internal: error)))
             }
         }
+    
     }
     
+    
+    //MARK: - Youtube getMovie
+    public func getYoutubeMovies(with query: String,
+                                 completion: @escaping (Result<[YoutubeDataItem]>) -> Void) {
+        
+        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return}
+       
+        let urlString = MovieEndPoints.YoutubeBase_URL.rawValue +
+        "q=\(query)&key=" + MovieEndPoints.YoutubeAPI_Key.rawValue
+        
+        AF.request(urlString).responseData { (response) in
+            switch response.result {
+            case .success(let data):
+                let decoder = Decoders.plainDateDecoder
+
+                do {
+                    let response = try decoder.decode(YoutubeMovieModel.self, from: data)
+                    
+                    if let sonc = response.items {
+                        print(sonc)
+                    }
+                    
+                   
+                    //completion(.success(response.items ?? []))
+                    
+                } catch {
+                    completion(.failure(APIError.serializationError(internal: error)))
+                }
+                
+            case .failure(let error):
+                completion(.failure(APIError.networkError(internal: error)))
+            }
+            }
+        }
+    }
 
     
-}
