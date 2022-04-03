@@ -33,6 +33,8 @@ public protocol MovieWebServiceProtocol {
     func    getTopRated(completion: @escaping (Result<[MovieData]>) -> Void)
     func    getDiscoverMovies(completion: @escaping (Result<[MovieData]>) -> Void)
     func    getSearch(with query: String, completion: @escaping (Result<[MovieData]>) -> Void)
+    func    getYoutubeMovies(with query: String,
+                             completion: @escaping (Result<[YoutubeDataItem]>) -> Void)
 }
 
 
@@ -250,19 +252,15 @@ public class MovieWebService: MovieWebServiceProtocol {
         "q=\(query)&key=" + MovieEndPoints.YoutubeAPI_Key.rawValue
         
         AF.request(urlString).responseData { (response) in
+           
+        
             switch response.result {
             case .success(let data):
                 let decoder = Decoders.plainDateDecoder
 
                 do {
                     let response = try decoder.decode(YoutubeMovieModel.self, from: data)
-                    
-                    if let sonc = response.items {
-                        print(sonc)
-                    }
-                    
-                   
-                    //completion(.success(response.items ?? []))
+                    completion(.success(response.items ?? []))
                     
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))
@@ -273,6 +271,7 @@ public class MovieWebService: MovieWebServiceProtocol {
             }
             }
         }
-    }
+    
+}
 
     

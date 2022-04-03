@@ -96,5 +96,34 @@ extension TableCollectionViewCell: UICollectionViewDelegate, UICollectionViewDat
         return bottomCells
     }
     
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let movie = movieDataList[indexPath.row]
+        
+        guard let titleName = movie.title else {
+            return
+        }
+        print(titleName)
+        
+        MovieWebService.shared.getYoutubeMovies(with: titleName + " trailer") { result in
+           
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let items):
+                    print(items[indexPath.row].id ?? 0 )
+                    self.generalCollectionView.reloadData()
+
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+    }
+    
     
 }
