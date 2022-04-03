@@ -7,12 +7,17 @@
 
 import UIKit
 
+protocol TableCollectionViewCellProtocol: AnyObject {
+    func tableCollectionViewCellDidTapCell(_ cell: TableCollectionViewCell, youtubeVM: YoutubeVM )
+}
+
+
 class TableCollectionViewCell: UITableViewCell {
 
     static  var identifier =  "TableCollectionViewCell"
     private var movieDataList: [MovieData] = [MovieData]()
     
-    
+    weak var youtubeDelegate: TableCollectionViewCellProtocol?
     
     
     private let generalCollectionView: UICollectionView = {
@@ -107,19 +112,38 @@ extension TableCollectionViewCell: UICollectionViewDelegate, UICollectionViewDat
         guard let titleName = movie.title else {
             return
         }
-        print(titleName)
+       
+         
         
-        MovieWebService.shared.getYoutubeMovies(with: titleName + " trailer") { result in
+        MovieWebService.shared.getYoutubeMovies(with: titleName + " trailer") { [weak self] result in
            
             DispatchQueue.main.async {
                 switch result {
                 case .success(let items):
-                    print(items[indexPath.row].id ?? 0 )
-                    self.generalCollectionView.reloadData()
+                  
+                    print("myitems ->",items)
+                    
+                    let movie = self?.movieDataList[indexPath.row]
+                    guard let titleOverview = movie?.overview else {
+                        return
+                    }
+    
+                    let youtubeViewModel = YoutubeVM(title: titleName,
+                                                     youtubeView: items[indexPath.row],
+                                                     titleOverview: titleOverview)
+    
+                    guard let strongSelf = self else {
+                        return
+                    }
+    
+                    self?.youtubeDelegate?.tableCollectionViewCellDidTapCell(strongSelf,
+                                                                       youtubeVM: youtubeViewModel)
+                    self?.generalCollectionView.reloadData()
 
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
+               
             }
         }
         

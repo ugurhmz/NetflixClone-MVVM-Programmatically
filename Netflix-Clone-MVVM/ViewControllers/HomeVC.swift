@@ -58,6 +58,8 @@ class HomeVC: UIViewController {
         MovieWebService.shared.getYoutubeMovies(with: "harry") { result in
             
         }
+   
+//        navigationController?.pushViewController(MovieTrailerVC(), animated: true)
     }
     
     private func viewModelDelegate(){
@@ -184,6 +186,9 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         
         let tableCell = tableView.dequeueReusableCell(withIdentifier: TableCollectionViewCell.identifier, for: indexPath) as! TableCollectionViewCell
         
+        tableCell.youtubeDelegate = self
+        
+        
         // switch sections
         switch indexPath.section {
             
@@ -248,3 +253,20 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 
+
+//MARK: -
+extension HomeVC: TableCollectionViewCellProtocol {
+    
+    func tableCollectionViewCellDidTapCell(_ cell: TableCollectionViewCell,
+                                           youtubeVM: YoutubeVM) {
+        
+        print("click")
+        DispatchQueue.main.async { [weak self] in
+            let vc = MovieTrailerVC()
+            vc.configure(with: youtubeVM)
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    
+}

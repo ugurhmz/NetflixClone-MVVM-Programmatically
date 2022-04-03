@@ -21,12 +21,12 @@ public struct YoutubeDataItem: Codable {
 
 // MARK: - ID
 public struct ID: Codable {
-    let kind, videoID, channelID: String?
+    let kind, videoID: String?
 
     enum CodingKeys: String, CodingKey {
         case kind
-        case videoID
-        case channelID
+        case videoID = "videoId"
+        
     }
 }
 

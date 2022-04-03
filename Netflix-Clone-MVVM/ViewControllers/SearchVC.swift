@@ -81,8 +81,7 @@ extension SearchVC: SearchMovieOutPutProtocol {
     
     func saveSearchingResultList(movieValues: [MovieData]) {
         self.resultSearchList = movieValues
-        print("resultSearchList",resultSearchList)
-        
+  
     }
 }
 
