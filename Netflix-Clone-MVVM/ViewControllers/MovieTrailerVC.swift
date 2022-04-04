@@ -91,13 +91,14 @@ extension MovieTrailerVC {
             webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webView.heightAnchor.constraint(equalToConstant: 450),
+            webView.heightAnchor.constraint(equalToConstant:200),
             
-            titleLabel.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: webView.bottomAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             
             overview.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
             overview.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            overview.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             downloadBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             downloadBtn.topAnchor.constraint(equalTo: overview.bottomAnchor, constant: 25),

@@ -32,6 +32,8 @@ class HomeVC: UIViewController {
     private lazy var homePopularMovieList: [MovieData] = []
     private lazy var homeUpComingMovieList: [MovieData] = []
     private lazy var homeTopRatedMovieList: [MovieData] = []
+    private var randomTrendingMovie: MovieData?
+    private var topHeaderView: TopHeaderUIView?
     
     lazy var viewModel = HomeViewModel()
     
@@ -54,10 +56,6 @@ class HomeVC: UIViewController {
         setupViews()
         viewModelDelegate()
         
-        
-        MovieWebService.shared.getYoutubeMovies(with: "harry") { result in
-            
-        }
    
 //        navigationController?.pushViewController(MovieTrailerVC(), animated: true)
     }
@@ -80,18 +78,24 @@ class HomeVC: UIViewController {
         homeTableView.delegate = self
         homeTableView.dataSource = self
         
-        // header view settings
-        let headerView = TopHeaderUIView(frame: CGRect(x: 0, y: 0,
-                                                       width: view.bounds.width,
-                                                       height: 450))
-        homeTableView.tableHeaderView = headerView
         homeTableView.frame = view.bounds
-        
+        settingsTopHeaderUIView()
         settingsNavigateBar()
     }
     
+    // header UIView
+    private func settingsTopHeaderUIView(){
+        topHeaderView = TopHeaderUIView(frame: CGRect(x: 0, y: 0,
+                                                       width: view.bounds.width,
+                                                       height: 450))
+        homeTableView.tableHeaderView = topHeaderView
+        
+       
+        
+    }
     
-    func settingsNavigateBar(){
+    
+    private func settingsNavigateBar(){
         let netflixImage = UIImage(named: "netflixIcon")?.withRenderingMode(.alwaysOriginal)
         
         // left icon
@@ -124,6 +128,7 @@ extension HomeVC: MovieOutPutProtocol {
     // trendingMovies
     func saveTrendingMovies(movieValues: [MovieData]) {
         self.homeTrendingList = movieValues
+        self.topHeaderView?.configure(with: self.homeTrendingList)
         homeTableView.reloadData()
     }
     

@@ -13,7 +13,7 @@ enum MovieEndPoints: String {
     case languageAndPage = "&language=en-US&page=1#"
     case movieAPI = "6fe8370265c396656c58d7dd9ff3e712"
     case YoutubeBase_URL = "https://youtube.googleapis.com/youtube/v3/search?"
-    case YoutubeAPI_Key = "AIzaSyA7ytrCBMdkm4Mdztnm9G9PpGQGA6aOrNY"
+    case YoutubeAPI_Key = "AIzaSyDVF-tH7JqBgwVUScLdOeGzoxyn2ODzXz0"
 }
 
 

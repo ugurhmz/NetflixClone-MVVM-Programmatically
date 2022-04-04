@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class TopHeaderUIView: UIView {
 
@@ -77,6 +78,25 @@ class TopHeaderUIView: UIView {
         setAllConstraints()
     }
   
+    
+    // home'dan gelen
+    func configure(with myMoviemodel: [MovieData]) {
+        print("gelenmodel",myMoviemodel.count)
+        
+        let randomMovieElement = myMoviemodel.randomElement()
+        
+        guard let imgUrl = randomMovieElement?.poster_path else {
+            return
+        }
+        
+        
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w500\(imgUrl)") else { return }
+        
+        print(randomMovieElement!.poster_path!)
+        topImageView.kf.setImage(with: url)
+    }
+    
+    
     
     required init?(coder: NSCoder) {
         fatalError("not imp")
