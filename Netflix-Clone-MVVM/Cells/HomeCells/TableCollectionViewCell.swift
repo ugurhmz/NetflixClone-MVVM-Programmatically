@@ -82,8 +82,8 @@ extension TableCollectionViewCell: UICollectionViewDelegate, UICollectionViewDat
         return self.movieDataList.count
     }
     
-    
-    
+  
+    // cellForItemAt
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -101,49 +101,52 @@ extension TableCollectionViewCell: UICollectionViewDelegate, UICollectionViewDat
         return bottomCells
     }
     
+    
+    
+    // didSelectItemAt
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         
+       
         
-        collectionView.deselectItem(at: indexPath, animated: true)
+       collectionView.deselectItem(at: indexPath, animated: true)
         
         let movie = movieDataList[indexPath.row]
-        
-        guard let titleName = movie.title else {
-            return
-        }
-       
-         
-        
-        MovieWebService.shared.getYoutubeMovies(with: titleName + " trailer") { [weak self] result in
-           
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let items):
-                  
-                    print("myitems ->",items)
-                    
-                    let movie = self?.movieDataList[indexPath.row]
-                    guard let titleOverview = movie?.overview else {
-                        return
-                    }
-    
-                    let youtubeViewModel = YoutubeVM(title: titleName,
-                                                     youtubeView: items[indexPath.row],
-                                                     titleOverview: titleOverview)
-    
-                    guard let strongSelf = self else {
-                        return
-                    }
-    
-                    self?.youtubeDelegate?.tableCollectionViewCellDidTapCell(strongSelf,
-                                                                       youtubeVM: youtubeViewModel)
-                    self?.generalCollectionView.reloadData()
+        print("HOOP",movie)
+//        guard let titleName = movie.title else {
+//            return
+//        }
+//
 
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-               
+        var movieTitle =  (movie.title != nil) ? movie.title  : movie.original_name!
+        
+        DispatchQueue.main.async {
+            MovieWebService.shared.getYoutubeMovies(with: movieTitle! + " trailer") { [weak self] result in
+                
+
+                    switch result {
+                    case .success(let items):
+
+                       // print("myitems ->",items[indexPath.row])
+
+                        let movie = self?.movieDataList[indexPath.row]
+                        guard let titleOverview = movie?.overview else {
+                            return
+                        }
+
+                        guard let strongSelf = self else {
+                            return
+                        }
+
+                        let youtubeViewModel = YoutubeVM(title: movieTitle!,
+                                                         youtubeView: items,
+                                                         titleOverview: titleOverview)
+                        self?.youtubeDelegate?.tableCollectionViewCellDidTapCell(strongSelf,
+                                                                                 youtubeVM: youtubeViewModel)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+
             }
         }
         

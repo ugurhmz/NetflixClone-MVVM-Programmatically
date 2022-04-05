@@ -174,9 +174,6 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         return  movieTypes.count
     }
     
-    
-    
-    
     // hücre içi
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
@@ -261,15 +258,18 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: -
 extension HomeVC: TableCollectionViewCellProtocol {
+  
+    
     
     func tableCollectionViewCellDidTapCell(_ cell: TableCollectionViewCell,
                                            youtubeVM: YoutubeVM) {
         
-        print("click")
+        
         DispatchQueue.main.async { [weak self] in
             let vc = MovieTrailerVC()
             vc.configure(with: youtubeVM)
             self?.navigationController?.pushViewController(vc, animated: true)
+    
         }
     }
     

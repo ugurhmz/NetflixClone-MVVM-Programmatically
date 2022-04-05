@@ -34,7 +34,7 @@ public protocol MovieWebServiceProtocol {
     func    getDiscoverMovies(completion: @escaping (Result<[MovieData]>) -> Void)
     func    getSearch(with query: String, completion: @escaping (Result<[MovieData]>) -> Void)
     func    getYoutubeMovies(with query: String,
-                             completion: @escaping (Result<[YoutubeDataItem]>) -> Void)
+                             completion: @escaping (Result<YoutubeDataItem>) -> Void)
 }
 
 
@@ -244,7 +244,7 @@ public class MovieWebService: MovieWebServiceProtocol {
     
     //MARK: - Youtube getMovie
     public func getYoutubeMovies(with query: String,
-                                 completion: @escaping (Result<[YoutubeDataItem]>) -> Void) {
+                                 completion: @escaping (Result<YoutubeDataItem>) -> Void) {
         
         guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return}
        
@@ -261,7 +261,7 @@ public class MovieWebService: MovieWebServiceProtocol {
                 do {
                     let response = try decoder.decode(YoutubeMovieModel.self, from: data)
                     print("resp",response)
-                   completion(.success(response.items ?? []))
+                    completion(.success((response.items?[0])!))
                     
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))

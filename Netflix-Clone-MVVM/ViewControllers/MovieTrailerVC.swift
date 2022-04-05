@@ -9,6 +9,8 @@ import UIKit
 import WebKit
 
 class MovieTrailerVC: UIViewController {
+    
+    var myArr: [MovieData] = [MovieData]()
 
     private let webView: WKWebView = {
         let webView = WKWebView()
@@ -48,18 +50,21 @@ class MovieTrailerVC: UIViewController {
         return button
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         
+        let backButton = UIBarButtonItem()
+        backButton.title = "New Back Button Text"
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+        
+       
     }
     
     private func setupViews() {
         [webView,titleLabel, overview, downloadBtn].forEach {  view.addSubview($0)}
         view.backgroundColor = .systemBackground
         setConstraints()
-        webView.backgroundColor = .blue
     }
     
 }
@@ -70,13 +75,14 @@ extension MovieTrailerVC {
         titleLabel.text = model.title
         overview.text  = model.titleOverview
 
-        print("mymodel", model.youtubeView.id!.videoID!)
+        //print("mymodel", model.youtubeView.id!.videoID!)
        
         guard let url = URL(string: "https://www.youtube.com/watch?v=\(model.youtubeView.id!.videoID!)") else {
             return
         }
         
         webView.load(URLRequest(url: url))
+       
     }
 }
 

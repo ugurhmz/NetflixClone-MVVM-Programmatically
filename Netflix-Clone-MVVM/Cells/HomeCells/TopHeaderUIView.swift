@@ -15,23 +15,33 @@ class TopHeaderUIView: UIView {
     private let topImageView: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(named: "a3")
-        iv.contentMode = .scaleAspectFill
+        iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
         return iv
     }()
     
+    private let blackView: UIView = {
+        let myview = UIView()
+        myview.backgroundColor = .black.withAlphaComponent(0.2)
+        myview.layer.zPosition = 1
+        myview.translatesAutoresizingMaskIntoConstraints = false
+        return myview
+    }()
+    
+    
     
     // black Gradient
     private func blackGradient(){
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [
-            UIColor.clear.cgColor,
-            UIColor.systemBackground.cgColor
-        ]
-              
+//        let gradientLayer = CAGradientLayer()
+//        gradientLayer.colors = [
+//            UIColor.clear.cgColor,
+//            UIColor.systemBackground.cgColor
+//        ]
+//
+//
+//        gradientLayer.frame = bounds
+//        layer.addSublayer(gradientLayer)
         
-        gradientLayer.frame = bounds
-        layer.addSublayer(gradientLayer)
     }
     
     
@@ -55,9 +65,8 @@ class TopHeaderUIView: UIView {
         button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.zPosition = 1
-        
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -70,12 +79,13 @@ class TopHeaderUIView: UIView {
     }
     
     private func setupViews(){
-        [topImageView, playBtn, downloadBtn].forEach { addSubview($0) }
+        [blackView,topImageView, playBtn, downloadBtn].forEach { addSubview($0) }
         
         
         topImageView.frame = bounds
         blackGradient()
         setAllConstraints()
+        //bringSubviewToFront(blackView)
     }
   
     
@@ -110,6 +120,10 @@ extension TopHeaderUIView {
     private func  setAllConstraints(){
         NSLayoutConstraint.activate([
             
+            blackView.topAnchor.constraint(equalTo: topAnchor),
+            blackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            blackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            blackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
             // playBtn
             playBtn.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 60),
