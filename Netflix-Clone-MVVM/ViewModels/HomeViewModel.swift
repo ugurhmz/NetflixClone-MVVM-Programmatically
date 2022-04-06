@@ -41,8 +41,6 @@ final class HomeViewModel: HomeViewModelProcotol {
     }
    
     
-    
-    
     func getTrendingMovies() {
         movieWebService.getTrendingMovies { [weak self] (result) in
             guard let self = self else {return }

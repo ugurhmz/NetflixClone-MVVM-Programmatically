@@ -13,7 +13,7 @@ enum MovieEndPoints: String {
     case languageAndPage = "&language=en-US&page=1#"
     case movieAPI = "6fe8370265c396656c58d7dd9ff3e712"
     case YoutubeBase_URL = "https://youtube.googleapis.com/youtube/v3/search?"
-    case YoutubeAPI_Key = "AIzaSyDVF-tH7JqBgwVUScLdOeGzoxyn2ODzXz0"
+    case YoutubeAPI_Key = "AIzaSyA0v2jybUPdoRSZitAu4en2Wq3q_n9oqNk"
 }
 
 
@@ -260,8 +260,13 @@ public class MovieWebService: MovieWebServiceProtocol {
 
                 do {
                     let response = try decoder.decode(YoutubeMovieModel.self, from: data)
-                    print("resp",response)
-                    completion(.success((response.items?[0])!))
+                    print(response)
+                    guard let responseItem = response.items?[0] else {
+                        print("Theres is Problem with Yotuube API!, change Youtube API_KEY")
+                        return
+                    }
+                    
+                    completion(.success(responseItem))
                     
                 } catch {
                     completion(.failure(APIError.serializationError(internal: error)))

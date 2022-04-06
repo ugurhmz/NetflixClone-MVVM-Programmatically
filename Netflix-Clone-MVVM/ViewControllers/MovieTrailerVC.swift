@@ -53,13 +53,9 @@ class MovieTrailerVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        
-        let backButton = UIBarButtonItem()
-        backButton.title = "New Back Button Text"
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-        
        
     }
+    
     
     private func setupViews() {
         [webView,titleLabel, overview, downloadBtn].forEach {  view.addSubview($0)}

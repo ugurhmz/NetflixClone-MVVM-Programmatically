@@ -55,6 +55,10 @@ class TableCollectionViewCell: UITableViewCell {
         super.layoutSubviews()
         generalCollectionView.frame = contentView.bounds
     }
+    
+    private func downloadMovieWithIndexPath(indexPath: IndexPath){
+        print("downloading ->", movieDataList[indexPath.row])
+    }
 }
 
 
@@ -151,6 +155,25 @@ extension TableCollectionViewCell: UICollectionViewDelegate, UICollectionViewDat
         }
         
     }
+   
     
+    // hücreye basılı tutunca, download çıkması için
+    func collectionView(_ collectionView: UICollectionView,
+                        contextMenuConfigurationForItemAt indexPath: IndexPath,
+                        point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        let config = UIContextMenuConfiguration(identifier: nil,
+                                                previewProvider: nil)  {  [weak self] _ in
+            
+            let homeDownloadBtnAction =  UIAction(title: "Download", subtitle: nil, image: nil, identifier: nil, discoverabilityTitle: nil, state: .off ) { _ in
+                print("download click")
+                self?.downloadMovieWithIndexPath(indexPath: indexPath)
+            }
+            
+            return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [homeDownloadBtnAction])
+        }
+        
+        return config
+    }
     
 }
