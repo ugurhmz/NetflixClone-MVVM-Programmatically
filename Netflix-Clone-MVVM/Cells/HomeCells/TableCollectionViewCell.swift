@@ -18,7 +18,7 @@ class TableCollectionViewCell: UITableViewCell {
     private var movieDataList: [MovieData] = [MovieData]()
     
     weak var youtubeDelegate: TableCollectionViewCellProtocol?
-    
+    var homeVM = HomeViewModel()
     
     private let generalCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -56,10 +56,7 @@ class TableCollectionViewCell: UITableViewCell {
         generalCollectionView.frame = contentView.bounds
     }
     
-    private func downloadMovieWithIndexPath(indexPath: IndexPath){
-        
-        print("downloading ->", movieDataList[indexPath.row])
-    }
+   
 }
 
 
@@ -169,8 +166,10 @@ extension TableCollectionViewCell: UICollectionViewDelegate, UICollectionViewDat
                                                 previewProvider: nil)  {  [weak self] _ in
             
             let homeDownloadBtnAction =  UIAction(title: "Download", subtitle: nil, image: nil, identifier: nil, discoverabilityTitle: nil, state: .off ) { _ in
-                print("download click")
-                self?.downloadMovieWithIndexPath(indexPath: indexPath)
+                
+                //print(self!.movieDataList[indexPath.row])
+                
+                self?.homeVM.downloadMovieWithIndexPath(sendHomeMovie: (self?.movieDataList[indexPath.row])!)
             }
             
             return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [homeDownloadBtnAction])

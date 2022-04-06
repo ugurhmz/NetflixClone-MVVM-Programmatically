@@ -109,5 +109,24 @@ final class HomeViewModel: HomeViewModelProcotol {
     }
     
    
+    // downlaod
+    func downloadMovieWithIndexPath(sendHomeMovie: MovieData){
+        
+        print("downloading ->", sendHomeMovie)
+        
+        DataPersistentManager.shared.downloadMovieConfigure(entityModel: sendHomeMovie) {  result in
+            
+            switch result {
+            case .success():
+                print("Success saved.")
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
+        
+    }
+    
+    
     
 }
