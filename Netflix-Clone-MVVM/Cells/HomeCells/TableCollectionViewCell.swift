@@ -57,11 +57,14 @@ class TableCollectionViewCell: UITableViewCell {
     }
     
     private func downloadMovieWithIndexPath(indexPath: IndexPath){
+        
         print("downloading ->", movieDataList[indexPath.row])
     }
 }
 
 
+
+//MARK: -  Fill with Datas
 extension TableCollectionViewCell {
     
     public func configure(with mvList: [MovieData]) {
