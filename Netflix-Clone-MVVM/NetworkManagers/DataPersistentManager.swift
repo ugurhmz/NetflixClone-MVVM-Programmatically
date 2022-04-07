@@ -15,6 +15,7 @@ class DataPersistentManager {
     enum DataBaseError {
         case failedSaveData
         case fetchDBerror
+        case deletedDBError
     }
     
     static let shared = DataPersistentManager()
@@ -76,6 +77,21 @@ class DataPersistentManager {
                 completion(.failure(DataBaseError.fetchDBerror as! Error))
             }
           
+    }
+    
+    //Delete
+    func deleteDataFromDB(entityModel: MovieEntity,
+                          completion: @escaping (Result<Void>) -> Void) {
+        
+        getContext().delete(entityModel)
+        
+        do {
+            try getContext().save()
+            completion(.success(()))
+            
+        } catch {
+            completion(.failure(DataBaseError.deletedDBError as! Error))
+        }
         
     }
     

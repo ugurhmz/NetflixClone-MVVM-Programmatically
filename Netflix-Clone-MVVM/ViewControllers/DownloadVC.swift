@@ -56,6 +56,10 @@ class DownloadVC: UIViewController {
         self.viewModel.getLocalStorageDownloadDatas()
      
         
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(image: UIImage(systemName: "person"), style: .done,
+                            target: self, action: nil)]
+        
     }
     
     
@@ -74,7 +78,7 @@ extension DownloadVC: DownloadOutPutProtocol {
     
     func saveData(downloadMovieValues: [MovieEntity]) {
         self.downloadedMovieList = downloadMovieValues
-        print("fetchin oldu", downloadMovieValues)
+        print("fetching", downloadMovieValues)
         self.tableView.reloadData()
     }
     
@@ -109,6 +113,28 @@ extension DownloadVC: UITableViewDelegate, UITableViewDataSource {
         return 140
     }
     
+    
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        
+        switch editingStyle {
+        case .delete:
+            
+            DataPersistentManager.shared.deleteDataFromDB(entityModel: downloadedMovieList[indexPath.row]) { [weak self] result in
+                switch result {
+                case .success():
+                    print("Deleted success")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+                self?.downloadedMovieList.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+        default:
+            break
+        }
+    }
     
 }
 

@@ -39,6 +39,7 @@ class DownloadViewModel: DownloadViewModelProtocol {
     }
     
     
+    // get All
      func  getLocalStorageDownloadDatas(){
         
              DataPersistentManager.shared.getDatasFromDB { [weak self] result in
@@ -50,7 +51,6 @@ class DownloadViewModel: DownloadViewModelProtocol {
                      print(error.localizedDescription)
                  }
              }
-        
     }
-    
+   
 }
