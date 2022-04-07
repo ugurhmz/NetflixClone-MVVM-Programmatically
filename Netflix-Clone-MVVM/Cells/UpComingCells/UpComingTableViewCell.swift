@@ -75,6 +75,21 @@ extension UpComingTableViewCell {
         titleLabel.text = movie.title
         
     }
+    
+    public func configureMovieEntity(movie: MovieEntity) {
+        
+        
+        guard let movieImage = movie.poster_path else { return }
+        
+     
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w500\(movieImage)") else { return}
+       
+        cellImageView.kf.setImage(with:  url)
+        
+        titleLabel.text = movie.title
+       
+        
+    }
         
 }
 

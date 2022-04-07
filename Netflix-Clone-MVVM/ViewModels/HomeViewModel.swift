@@ -15,7 +15,7 @@ protocol HomeViewModelProcotol {
     func    getPopular()
     func    getTopRated()
     
-    var movieDataList: [MovieData] { get set }
+  //  var movieDataList: [MovieData] { get set }
     var movieWebService: MovieWebService { get }
     var movieOutPut: MovieOutPutProtocol? { get }
     
@@ -26,7 +26,7 @@ protocol HomeViewModelProcotol {
 
 final class HomeViewModel: HomeViewModelProcotol {
    
-    var movieDataList: [MovieData] = []
+  //  var movieDataList: [MovieData] = []
     var movieWebService: MovieWebService
     var movieOutPut: MovieOutPutProtocol?
     
@@ -109,23 +109,6 @@ final class HomeViewModel: HomeViewModelProcotol {
     }
     
    
-    // downlaod
-    func downloadMovieWithIndexPath(sendHomeMovie: MovieData){
-        
-        print("downloading ->", sendHomeMovie)
-        
-        DataPersistentManager.shared.downloadMovieConfigure(entityModel: sendHomeMovie) {  result in
-            
-            switch result {
-            case .success():
-                print("Success saved.")
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-        
-        
-    }
     
     
     

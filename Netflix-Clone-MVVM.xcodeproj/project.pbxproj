@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		635868FD27FE60E6001206A4 /* DownloadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635868FC27FE60E6001206A4 /* DownloadViewModel.swift */; };
 		636E2E7327F3131A004DB925 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636E2E7227F3131A004DB925 /* AppDelegate.swift */; };
 		636E2E7527F3131A004DB925 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636E2E7427F3131A004DB925 /* SceneDelegate.swift */; };
 		636E2E7727F3131A004DB925 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636E2E7627F3131A004DB925 /* MainTabBarViewController.swift */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		121FFC9F1C0DBE47E6D418AD /* Pods_Netflix_Clone_MVVM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Netflix_Clone_MVVM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		635868FC27FE60E6001206A4 /* DownloadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadViewModel.swift; sourceTree = "<group>"; };
 		636E2E6F27F3131A004DB925 /* Netflix-Clone-MVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Netflix-Clone-MVVM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		636E2E7227F3131A004DB925 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		636E2E7427F3131A004DB925 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				6382CD0B27F6FF00009C2C65 /* HomeViewModel.swift */,
 				637BFE4E27F8724300848CAA /* SearchViewModel.swift */,
 				63DE97E927FA49E80093D2BC /* YoutubeVM.swift */,
+				635868FC27FE60E6001206A4 /* DownloadViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				636E2E9327F337A3004DB925 /* UpComingVC.swift in Sources */,
 				63BBA22727F9CFD5004B7BDA /* YoutubeModels.swift in Sources */,
 				637BFE4C27F8651C00848CAA /* SearchResultsController.swift in Sources */,
+				635868FD27FE60E6001206A4 /* DownloadViewModel.swift in Sources */,
 				637956F027F5A51F00151C58 /* Result.swift in Sources */,
 				63DE97EA27FA49E80093D2BC /* YoutubeVM.swift in Sources */,
 				63E8072027F655FE00001D7B /* BottomCollectionViewCell.swift in Sources */,

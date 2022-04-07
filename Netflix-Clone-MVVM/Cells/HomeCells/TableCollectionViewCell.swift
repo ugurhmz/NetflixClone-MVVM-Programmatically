@@ -18,7 +18,7 @@ class TableCollectionViewCell: UITableViewCell {
     private var movieDataList: [MovieData] = [MovieData]()
     
     weak var youtubeDelegate: TableCollectionViewCellProtocol?
-    var homeVM = HomeViewModel()
+    var downloadVM = DownloadViewModel()
     
     private let generalCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -169,7 +169,7 @@ extension TableCollectionViewCell: UICollectionViewDelegate, UICollectionViewDat
                 
                 //print(self!.movieDataList[indexPath.row])
                 
-                self?.homeVM.downloadMovieWithIndexPath(sendHomeMovie: (self?.movieDataList[indexPath.row])!)
+                self?.downloadVM.downloadMovieWithIndexPath(sendHomeMovie: (self?.movieDataList[indexPath.row])!)
             }
             
             return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [homeDownloadBtnAction])

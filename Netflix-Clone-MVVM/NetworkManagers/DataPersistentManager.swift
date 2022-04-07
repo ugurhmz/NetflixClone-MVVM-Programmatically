@@ -14,21 +14,31 @@ class DataPersistentManager {
     
     enum DataBaseError {
         case failedSaveData
+        case fetchDBerror
     }
     
     static let shared = DataPersistentManager()
     
     
+    func getContext() -> NSManagedObjectContext {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+           
+            return  NSManagedObjectContext()
+        }
+        
+        let context = appDelegate.persistentContainer.viewContext
+        
+        return context
+    }
+    
+    
+    // SAVE
     func downloadMovieConfigure(entityModel: MovieData,
                                 completion: @escaping (Result<Void>) -> Void)
     {
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
         
-        let context = appDelegate.persistentContainer.viewContext
-        let myMovieModel = MovieEntity(context: context)
+        let myMovieModel = MovieEntity(context: getContext())
         
         myMovieModel.id = Int64(entityModel.id)
         myMovieModel.original_name = entityModel.original_name
@@ -40,10 +50,29 @@ class DataPersistentManager {
         myMovieModel.vote_average = Double(entityModel.vote_average ?? 0)
         
         do {
-            try context.save()
+            try getContext().save()
             completion(.success(()))
         } catch {
             completion(.failure(DataBaseError.failedSaveData as! Error))
         }
     }
+    
+    
+    // GET ALL
+    func getDatasFromDB(completion: @escaping (Result<[MovieEntity]>) -> Void){
+        let request: NSFetchRequest<MovieEntity>
+        
+        request = MovieEntity.fetchRequest()
+        
+        do {
+            
+            let movieDatas = try getContext().fetch(request)
+            completion(.success(movieDatas))
+            
+        } catch {
+            completion(.failure(DataBaseError.fetchDBerror as! Error))
+        }
+      
+    }
+    
 }
