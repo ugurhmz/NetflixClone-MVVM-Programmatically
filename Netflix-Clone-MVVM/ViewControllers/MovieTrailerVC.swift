@@ -8,10 +8,12 @@
 import UIKit
 import WebKit
 
-class MovieTrailerVC: UIViewController {
+class MovieTrailerVC: UIViewController, UIScrollViewDelegate {
     
     var myArr: [MovieData] = [MovieData]()
 
+    var scroll = UIScrollView()
+    
     private let webView: WKWebView = {
         let webView = WKWebView()
         webView.translatesAutoresizingMaskIntoConstraints = false
@@ -53,12 +55,22 @@ class MovieTrailerVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-       
+        scroll.delegate = self
     }
     
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let defaultOffset = view.safeAreaInsets.top
+        let offset = scrollView.contentOffset.y + defaultOffset
+
+        navigationController?.navigationBar.transform = .init(translationX:  0,
+                                                              y: min(0, offset))
+    }
+
+    
+    
     private func setupViews() {
-        [webView,titleLabel, overview, downloadBtn].forEach {  view.addSubview($0)}
+        [scroll,webView,titleLabel, overview, downloadBtn].forEach {  view.addSubview($0)}
         view.backgroundColor = .systemBackground
         setConstraints()
     }

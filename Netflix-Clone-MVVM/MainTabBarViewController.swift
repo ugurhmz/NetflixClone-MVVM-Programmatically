@@ -34,6 +34,7 @@ class MainTabBarViewController: UITabBarController {
 
         setViewControllers([homeTab, upComingTab, searchTab, downloadTab], animated: true)
         
+        
     }
 }
 

@@ -60,19 +60,23 @@ class DataPersistentManager {
     
     // GET ALL
     func getDatasFromDB(completion: @escaping (Result<[MovieEntity]>) -> Void){
-        let request: NSFetchRequest<MovieEntity>
-        
-        request = MovieEntity.fetchRequest()
-        
-        do {
+       
+            let request: NSFetchRequest<MovieEntity>
             
-            let movieDatas = try getContext().fetch(request)
-            completion(.success(movieDatas))
+            request = MovieEntity.fetchRequest()
             
-        } catch {
-            completion(.failure(DataBaseError.fetchDBerror as! Error))
-        }
-      
+            do {
+                
+                let movieDatas = try self.getContext().fetch(request)
+                
+                
+                completion(.success(movieDatas))
+                
+            } catch {
+                completion(.failure(DataBaseError.fetchDBerror as! Error))
+            }
+          
+        
     }
     
 }

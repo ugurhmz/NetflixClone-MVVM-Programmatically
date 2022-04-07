@@ -33,15 +33,17 @@ class DownloadVC: UIViewController {
         super.viewDidLoad()
         navigationSettings()
         setupViews()
+//        NotificationCenter.default.addObserver(forName: NSNotification.Name("refreshTableView"), object: nil, queue: nil) { _ in
+//            print("NotificationCenter")
+//          
+//            let vm = DownloadViewModel()
+//            vm.getLocalStorageDownloadDatas()
+//            self.tableView.reloadData()
+//            
+//        }
        
     }
    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        print("DownloadVC geldin")
-       
-    }
-    
     
     private func setupViews(){
         
@@ -51,7 +53,8 @@ class DownloadVC: UIViewController {
          tableView.dataSource = self
         
         viewModel.setDownloadDelegate(output: self)
-        viewModel.getLocalStorageDownloadDatas()
+        self.viewModel.getLocalStorageDownloadDatas()
+     
         
     }
     
@@ -72,7 +75,7 @@ extension DownloadVC: DownloadOutPutProtocol {
     func saveData(downloadMovieValues: [MovieEntity]) {
         self.downloadedMovieList = downloadMovieValues
         print("fetchin oldu", downloadMovieValues)
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     

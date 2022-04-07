@@ -31,6 +31,7 @@ class DownloadViewModel: DownloadViewModelProtocol {
             switch result {
             case .success():
                 print("DOWNLOAD SUCCESS")
+                NotificationCenter.default.post(name: NSNotification.Name("refreshTableView"), object: nil)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -39,15 +40,17 @@ class DownloadViewModel: DownloadViewModelProtocol {
     
     
      func  getLocalStorageDownloadDatas(){
-        DataPersistentManager.shared.getDatasFromDB { [weak self] result in
-            switch result {
-            case .success(let movies):
-                    self?.downloadOutPut?.saveData(downloadMovieValues: movies)
-
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        
+             DataPersistentManager.shared.getDatasFromDB { [weak self] result in
+                 switch result {
+                 case .success(let movies):
+                         self?.downloadOutPut?.saveData(downloadMovieValues: movies)
+                    
+                 case .failure(let error):
+                     print(error.localizedDescription)
+                 }
+             }
+        
     }
     
 }
