@@ -53,6 +53,7 @@ class DataPersistentManager {
         do {
             try getContext().save()
             completion(.success(()))
+          
         } catch {
             completion(.failure(DataBaseError.failedSaveData as! Error))
         }
@@ -84,7 +85,6 @@ class DataPersistentManager {
                           completion: @escaping (Result<Void>) -> Void) {
         
         getContext().delete(entityModel)
-        
         do {
             try getContext().save()
             completion(.success(()))
@@ -93,6 +93,19 @@ class DataPersistentManager {
             completion(.failure(DataBaseError.deletedDBError as! Error))
         }
         
+    }
+    
+    // Delete All
+    func deleteAllFromDB(){
+        let fetchReq = NSFetchRequest<NSFetchRequestResult>(entityName: "MovieEntity")
+        let deleteAllReq = NSBatchDeleteRequest(fetchRequest: fetchReq)
+        
+        do {
+            try  getContext().execute(deleteAllReq)
+            print()
+        } catch {
+            print("err")
+        }
     }
     
 }

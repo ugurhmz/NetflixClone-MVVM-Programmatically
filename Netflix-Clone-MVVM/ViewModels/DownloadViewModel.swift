@@ -46,7 +46,7 @@ class DownloadViewModel: DownloadViewModelProtocol {
                  switch result {
                  case .success(let movies):
                          self?.downloadOutPut?.saveData(downloadMovieValues: movies)
-                    
+                     NotificationCenter.default.post(name: NSNotification.Name("refreshTableView"), object: nil)
                  case .failure(let error):
                      print(error.localizedDescription)
                  }

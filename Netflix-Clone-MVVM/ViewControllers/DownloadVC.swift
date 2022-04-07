@@ -33,14 +33,10 @@ class DownloadVC: UIViewController {
         super.viewDidLoad()
         navigationSettings()
         setupViews()
-//        NotificationCenter.default.addObserver(forName: NSNotification.Name("refreshTableView"), object: nil, queue: nil) { _ in
-//            print("NotificationCenter")
-//          
-//            let vm = DownloadViewModel()
-//            vm.getLocalStorageDownloadDatas()
-//            self.tableView.reloadData()
-//            
-//        }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("refreshTableView"), object: nil, queue: nil) { _ in
+            print("NotificationCenter")
+            self.tableView.reloadData()
+        }
        
     }
    
@@ -57,9 +53,34 @@ class DownloadVC: UIViewController {
      
         
         navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: UIImage(systemName: "person"), style: .done,
-                            target: self, action: nil)]
+            UIBarButtonItem(image: UIImage(systemName: "trash.slash"), style: .done,
+                            target: self, action: #selector(deleteAllDownloaded))]
+        navigationController?.navigationBar.tintColor = .red
+      
         
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+       
+        viewModel.getLocalStorageDownloadDatas()
+        self.tableView.reloadData()
+    }
+    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        viewModel.getLocalStorageDownloadDatas()
+//        self.tableView.reloadData()
+//    }
+    
+    
+    @objc func deleteAllDownloaded(){
+        DataPersistentManager.shared.deleteAllFromDB()
+        DispatchQueue.main.async {
+            self.viewModel.getLocalStorageDownloadDatas()
+            self.tableView.reloadData()
+        }
     }
     
     
@@ -70,6 +91,8 @@ class DownloadVC: UIViewController {
         navigationController?.navigationItem.largeTitleDisplayMode = .always
     }
     
+   
+    
 }
 
 
@@ -77,9 +100,9 @@ class DownloadVC: UIViewController {
 extension DownloadVC: DownloadOutPutProtocol {
     
     func saveData(downloadMovieValues: [MovieEntity]) {
-        self.downloadedMovieList = downloadMovieValues
-        print("fetching", downloadMovieValues)
-        self.tableView.reloadData()
+            self.downloadedMovieList = downloadMovieValues
+            print("fetching", downloadMovieValues)
+            self.tableView.reloadData()
     }
     
     

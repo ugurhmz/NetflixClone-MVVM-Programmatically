@@ -116,7 +116,10 @@ extension TableCollectionViewCell: UICollectionViewDelegate, UICollectionViewDat
        collectionView.deselectItem(at: indexPath, animated: true)
         
         let movie = movieDataList[indexPath.row]
-        print("HOOP",movie)
+        print("Movie Tıklandı",movie)
+        let vc = MovieTrailerVC()
+        //vc.forDownload(with: movieDataList[indexPath.row])
+        MovieTrailerVC.myArr = movieDataList[indexPath.row]
 //        guard let titleName = movie.title else {
 //            return
 //        }

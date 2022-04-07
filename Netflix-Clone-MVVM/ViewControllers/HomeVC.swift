@@ -239,6 +239,10 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         return movieTypes[section]
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("seçildi")
+    }
+    
     
     // Header Title Settings
     func tableView(_ tableView: UITableView,

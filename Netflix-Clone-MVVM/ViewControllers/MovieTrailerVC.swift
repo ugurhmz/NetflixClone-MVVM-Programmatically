@@ -10,8 +10,8 @@ import WebKit
 
 class MovieTrailerVC: UIViewController, UIScrollViewDelegate {
     
-    var myArr: [MovieData] = [MovieData]()
-
+    static var myArr: MovieData?
+    var viewModel = DownloadViewModel()
     var scroll = UIScrollView()
     
     private let webView: WKWebView = {
@@ -40,7 +40,7 @@ class MovieTrailerVC: UIViewController, UIScrollViewDelegate {
     }()
     
     
-    private let downloadBtn: UIButton = {
+    private var downloadBtn: UIButton = {
         let button = UIButton()
         button.backgroundColor = .red.withAlphaComponent(0.7)
         button.setTitle("Download", for: .normal)
@@ -49,15 +49,24 @@ class MovieTrailerVC: UIViewController, UIScrollViewDelegate {
         button.titleLabel?.font = .systemFont(ofSize: 22)
         button.layer.cornerRadius = 8
         button.clipsToBounds = true
+        button.addTarget(self,
+                         action: #selector(buttonAction),
+                         for: .touchUpInside)
         return button
     }()
+    
+    
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         scroll.delegate = self
+        
+        print("datam", MovieTrailerVC.myArr)
     }
     
+   
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let defaultOffset = view.safeAreaInsets.top
@@ -75,11 +84,32 @@ class MovieTrailerVC: UIViewController, UIScrollViewDelegate {
         setConstraints()
     }
     
+    @objc func buttonAction(){
+            
+        viewModel.downloadMovieWithIndexPath(sendHomeMovie: MovieTrailerVC.myArr ?? MovieData(id: 0, media_type: nil, original_name: nil, poster_path: nil, title: nil, overview: nil, vote_count: nil, release_date: nil, vote_average: nil))
+        let alert = UIAlertController(title: "Movie", message: "Movie Downloaded", preferredStyle: .actionSheet)
+        alert.view.subviews.first?.subviews.first?.subviews.first?.backgroundColor = .green.withAlphaComponent(0.2)
+        alert.view.tintColor = .black
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true)
+        
+    }
+    
 }
 
 extension MovieTrailerVC {
     
+    
+//    public func forDownload(with model: MovieData){
+//        print("Download veri geldi", model)
+//
+//        DispatchQueue.main.async {
+//            self.myArr = model
+//        }
+//    }
+    
     public func configure(with model: YoutubeVM) {
+        print("MODEL", model)
         titleLabel.text = model.title
         overview.text  = model.titleOverview
 
